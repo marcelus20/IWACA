@@ -21,6 +21,13 @@ helpers.checkSchema = (instances, v, schema) => {
     instances.forEach(instance => console.log(v.validate(instance, schema)));
 }
 
+helpers.assignQuestById = (player, quests_) => {
+    return new Player(player.id, player.name, player.vocation, player.level, player.city, player.sex, player.quests
+        .map(id=>quests_
+            .filter(quest=>quest.id == id)));
+        
+}
+
 
 
 module.exports = helpers;
