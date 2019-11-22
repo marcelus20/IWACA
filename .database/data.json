@@ -2,9 +2,9 @@
     "players": [
             {
                 "id":"sGBVX4l38GCoOutuhoLq",
-                "name":"Rick, the thunder",
+                "name":"Rick the thunder",
                 "vocation":"sorcerer",
-                "level":"10",
+                "level":10,
                 "city":"Carlin",
                 "sex":"M",
                 "quests":["WP2x11PT2fNFXUdgu8UW"]
@@ -13,7 +13,7 @@
                 "id":"ZTo4tGMUR7Eu0iRLXVG7",
                 "name":"Tania",
                 "vocation":"knight",
-                "level":"100",
+                "level":100,
                 "city":"Carlin",
                 "sex":"F",
                 "quests":["gOooPHJnvNmvwDK36Wz4", "u04guTPliDhwoDqowMkL"]
@@ -22,7 +22,7 @@
                 "id":"PtYMwW3Jmkz5sBwilSDE",
                 "name":"Tretis",
                 "vocation":"paladin",
-                "level":"60",
+                "level":60,
                 "city":"Venore",
                 "sex":"M",
                 "quests":["ERyl89dQJlhsgoZOp8Ah", "TGhEtvIAu2JfwskyECwC"]
@@ -31,7 +31,7 @@
                 "id":"8VCmPS0u6EO9CoELwRwq",
                 "name":"Eloise",
                 "vocation":"druid",
-                "level":"600",
+                "level":600,
                 "city":"Oramond",
                 "sex":"F",
                 "quests":["gOooPHJnvNmvwDK36Wz4", "u04guTPliDhwoDqowMkL", "urZpk0HtALiPJIGXpAC6", "P2adl60yJ4nZJhvW6alz"]
@@ -40,7 +40,7 @@
                 "id":"Brfi8qyxk09jFrvxqYoE",
                 "name":"Olga",
                 "vocation":"sorcerer",
-                "level":"150",
+                "level":150,
                 "city":"Ankrahmun",
                 "sex":"F",
                 "quests":[]
@@ -49,7 +49,7 @@
                 "id":"Brfi8qyxk09jFrvxqYoE",
                 "name":"Kendran Elliorath",
                 "vocation":"knight",
-                "level":"50",
+                "level":50,
                 "city":"Ab'Dendriel",
                 "sex":"M",
                 "quests":["ERyl89dQJlhsgoZOp8Ah", "urZpk0HtALiPJIGXpAC6"]
@@ -58,7 +58,7 @@
                 "id":"Acfg91wSepW9TbYtfoBu",
                 "name":"Tyranus",
                 "vocation":"knight",
-                "level":"400",
+                "level":400,
                 "city":"Darashia",
                 "sex":"M",
                 "quests":["u04guTPliDhwoDqowMkL"]
@@ -68,37 +68,37 @@
                 {
                         "id":"WP2x11PT2fNFXUdgu8UW",
                         "name":"The Scatterbrainned Sorcerer",
-                        "date-completed":"2019-12-10"
+                        "dateCompleted":"2019-12-10"
                 },
                 {
                         "id":"gOooPHJnvNmvwDK36Wz4",
                         "name":"Pits Of Inferno",
-                        "date-completed":"2019-12-10"
+                        "dateCompleted":"2019-12-10"
                 },
                 {
                         "id":"u04guTPliDhwoDqowMkL",
                         "name":"Draconia",
-                        "date-completed":"2019-12-13"
+                        "dateCompleted":"2019-12-13"
                 },
                 {
                         "id":"ERyl89dQJlhsgoZOp8Ah",
                         "name":"Folda Bits",
-                        "date-completed":"2019-12-10"
+                        "dateCompleted":"2019-12-10"
                 },
                 {
                         "id":"TGhEtvIAu2JfwskyECwC",
                         "name":"Inquisition",
-                        "date-completed":"2019-12-13"
+                        "dateCompleted":"2019-12-13"
                 },
                 {
                         "id":"urZpk0HtALiPJIGXpAC6",
                         "name":"Shiny Blade",
-                        "date-completed":"2019-12-10"
+                        "dateCompleted":"2019-12-10"
                 },
                 {
                         "id":"P2adl60yJ4nZJhvW6alz",
                         "name":"The new Frontier of Zao",
-                        "date-completed":"2019-12-13"
+                        "dateCompleted":"2019-12-13"
                 }
 
     ]

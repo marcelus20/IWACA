@@ -7,21 +7,33 @@ const express = require('express');
 const path = require('path');
 const xmlParse = require('xslt-processor').xmlParse;
 const xslProcess_ = require('xslt-processor').xsltProcess;
-const config = require('./config');
+const config = require('./my-lib/config');
+const Validator = require('jsonschema').Validator;
+const v = new Validator();
 
 const router = express();
 const server = http.createServer(router);
 
 const Player = require('./models/Player');
 const Quest = require('./models/Quest');
+const helpers = require('./my-lib/helpers');
 
+const database = JSON.parse(fs.readFileSync(config.dataLocation, 'utf-8'));
 
-router.get('/', (request, response)=>{
-    const header = {
-        'Content-Type': 'text/html'
-    }
+// validator.addSchema()
+const players = database.players.map(player=>helpers.destructObjectToPlayer(player));
+console.log(helpers.checkSchemaValidity(players, v, Player.getCorrespondentSchema()));
+// helpers.checkSchema(players, v, Player.getCorrespondentSchema());
 
-    response.writeHead(200, header);
+const quests = database.quests.map(quest=>helpers.destructObjectToQuest(quest));
+// console.log(quests);
+console.log(helpers.checkSchemaValidity(quests, v, Quest.getCorrespondentSchema()));
+// router.get('/', (request, response)=>{
+//     const header = {
+//         'Content-Type': 'text/html'
+//     }
+
+//     response.writeHead(200, header);
 
     // const fileXml = fs.readFileSync('PaddysCafe.xml', 'utf-8');
     // const fileXls = fs.readFileSync('PaddysCafe.xsl', 'utf-8');
@@ -36,9 +48,9 @@ router.get('/', (request, response)=>{
 
     // result = result.toString();
 
-    response.end("<html><body>ABC</body></html>");
-});
+//     response.end("<html><body>ABC</body></html>");
+// });
 
-server.listen(config.env.port, process.env.IP, ()=>{
-    console.log(`Running on ${config.env.port} in the ${config.env.environment} environment`);
-})
+// server.listen(config.env.port, process.env.IP, ()=>{
+//     console.log(`Running on ${config.env.port} in the ${config.env.environment} environment`);
+// })
