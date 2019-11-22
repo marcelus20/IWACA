@@ -12,6 +12,10 @@ const config = require('./config');
 const router = express();
 const server = http.createServer(router);
 
+const Player = require('./models/Player');
+const Quest = require('./models/Quest');
+
+
 router.get('/', (request, response)=>{
     const header = {
         'Content-Type': 'text/html'
