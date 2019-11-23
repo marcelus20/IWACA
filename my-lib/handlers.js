@@ -24,7 +24,6 @@ handlers.players = (request, response) => {
     const players = database.players
         .map(player=>helpers.destructObjectToPlayer(player))
         .map(player=>helpers.assignQuestById(player, quests));
-    
     const doc = xmlParse(xml.parse("players",{"player" : players}));
     const stylesheet = xmlParse(fileXls);
     const result = xslProcess_(doc, stylesheet).toString();
