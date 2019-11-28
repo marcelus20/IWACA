@@ -11,9 +11,9 @@ const Validator = require('jsonschema').Validator;
 
 
 //My own libraries
-const config = require('./my-lib/config');
-const helpers = require('./my-lib/helpers');
-const handlers = require('./my-lib/handlers');
+const config = require('./backend/my-lib/config');
+const helpers = require('./backend/my-lib/helpers');
+const handlers = require('./backend/my-lib/handlers');
 
 
 const v = new Validator();
