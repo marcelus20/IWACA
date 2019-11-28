@@ -16,13 +16,6 @@ const helpers = require('./my-lib/helpers');
 const handlers = require('./my-lib/handlers');
 
 
-
-//My pojo classes
-const Player = require('./models/Player');
-const Quest = require('./models/Quest');
-
-
-
 const v = new Validator();
 const router = express();
 const server = http.createServer(router);

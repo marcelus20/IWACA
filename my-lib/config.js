@@ -2,7 +2,9 @@ const Env = require('../models/Env');
 
 const config = {
     "env": new Env('staging', 3000),
-    "dataLocation":".database/data.json",
+    "playersLocation":".database/players.xml",
+    "questsLocation":".database/quests.xml",
+    "schemaLocation":".database/schema.xsd",
     "xslIndexLocation":"index.xsl",
     "xslQuestLocation":"quests.xsl"
 }

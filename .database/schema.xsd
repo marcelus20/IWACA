@@ -1,0 +1,35 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="players">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="player" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="id"/>
+              <xs:element type="xs:string" name="name"/>
+              <xs:element type="xs:string" name="vocation"/>
+              <xs:element type="xs:short" name="level"/>
+              <xs:element type="xs:string" name="city"/>
+              <xs:element type="xs:string" name="sex"/>
+              <xs:element name="quests">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:element name="quest" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="id"/>
+                          <xs:element type="xs:string" name="name"/>
+                          <xs:element type="xs:date" name="dateCompleted"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

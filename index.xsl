@@ -29,7 +29,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
             <td colspan="5">
                 
                 <ol>
-            <xsl:for-each select="/players/player/quests">
+            <xsl:for-each select="/players/player/quests/quest">
                 <li>
                     <ul>
                         <li><xsl:value-of select="name" /></li>
