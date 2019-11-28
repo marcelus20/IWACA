@@ -7,13 +7,6 @@
         <level>10</level>
         <city>Carlin</city>
         <sex>M</sex>
-        <quests>
-            <quest>
-                <id>WP2x11PT2fNFXUdgu8UW</id>
-                <name>The Scatterbrainned Sorcerer</name>
-                <dateCompleted>2019-12-10</dateCompleted>
-            </quest>    
-        </quests>
     </player>
     <player>
         <id>ZTo4tGMUR7Eu0iRLXVG7</id>
@@ -22,18 +15,6 @@
         <level>100</level>
         <city>Carlin</city>
         <sex>F</sex>
-        <quests>
-            <quest>
-                <id>gOooPHJnvNmvwDK36Wz4</id>
-                <name>Pits Of Inferno</name>
-                <dateCompleted>2019-12-10</dateCompleted>
-            </quest>
-            <quest>
-                <id>u04guTPliDhwoDqowMkL</id>
-                <name>Draconia</name>
-                <dateCompleted>2019-12-13</dateCompleted>
-            </quest>
-        </quests>
     </player>
     <player>
         <id>PtYMwW3Jmkz5sBwilSDE</id>
@@ -42,18 +23,6 @@
         <level>60</level>
         <city>Venore</city>
         <sex>M</sex>
-        <quests>
-            <quest>
-                <id>ERyl89dQJlhsgoZOp8Ah</id>
-                <name>Folda Bits</name>
-                <dateCompleted>2019-12-10</dateCompleted>
-            </quest>
-            <quest>
-                <id>TGhEtvIAu2JfwskyECwC</id>
-                <name>Inquisition</name>
-                <dateCompleted>2019-12-13</dateCompleted>
-            </quest>
-        </quests>
         
     </player>
     <player>
@@ -63,28 +32,6 @@
         <level>600</level>
         <city>Oramond</city>
         <sex>F</sex>
-        <quests>
-            <quest>
-                <id>gOooPHJnvNmvwDK36Wz4</id>
-                <name>Pits Of Inferno</name>
-                <dateCompleted>2019-12-10</dateCompleted>
-            </quest>
-            <quest>
-                <id>u04guTPliDhwoDqowMkL</id>
-                <name>Draconia</name>
-                <dateCompleted>2019-12-13</dateCompleted>
-            </quest>
-            <quest>
-                <id>urZpk0HtALiPJIGXpAC6</id>
-                <name>Shiny Blade</name>
-                <dateCompleted>2019-12-10</dateCompleted>
-            </quest>
-            <quest>
-                <id>P2adl60yJ4nZJhvW6alz</id>
-                <name>The new Frontier of Zao</name>
-                <dateCompleted>2019-12-13</dateCompleted>
-            </quest>
-        </quests>
     </player>
     <player>
         <id>Brfi8qyxk09jFrvxqYoE</id>
@@ -101,18 +48,6 @@
         <level>50</level>
         <city>Ab'Dendriel</city>
         <sex>M</sex>
-        <quests>
-            <quest>
-                <id>ERyl89dQJlhsgoZOp8Ah</id>
-                <name>Folda Bits</name>
-                <dateCompleted>2019-12-10</dateCompleted>
-            </quest>
-            <quest>
-                <id>urZpk0HtALiPJIGXpAC6</id>
-                <name>Shiny Blade</name>
-                <dateCompleted>2019-12-10</dateCompleted>
-            </quest>
-        </quests>
     </player>
     <player>
         <id>Acfg91wSepW9TbYtfoBu</id>
@@ -121,12 +56,5 @@
         <level>400</level>
         <city>Darashia</city>
         <sex>M</sex>
-        <quests>
-            <quest>
-                <id>u04guTPliDhwoDqowMkL</id>
-                <name>Draconia</name>
-                <dateCompleted>2019-12-13</dateCompleted>
-            </quest>
-        </quests>
     </player>
 </players>
