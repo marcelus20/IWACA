@@ -1,0 +1,125 @@
+  <html>
+      <head>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="index.css" />
+        </head>
+  
+    <body>
+        <div class="table wrap">
+            <div class="row">
+                <div class="myform col">   
+                    <label>Player Name</label>
+                    <input id="nam" class="form-control" name="name_" placeholder="type name"/>
+                    <label>Level</label>
+                    <input type="number" id="lev" class="form-control" name="level_" placeholder="type level"/>
+                    <label>Vocation</label>
+                    <input id="voc" class="form-control" name="vocation_" placeholder="type vocation"/>
+                    <label>City</label>
+                    <input id="cit" class="form-control" name="city_" placeholder="Enter city"/>
+                    <label>Sex</label>
+                    <input id="sex" class="form-control" name="sex_" placeholder="Enter city"/>
+                    <button value="submit" class="btn btn-secondary" id="sub">Submit</button>            
+                </div>
+                <div class="data-table col">
+                    <div class="table" id="data">
+                        <div class="title">
+                            <h2 class="display-2">Players List</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p>id</p>
+                            </div>
+                            <div class="col">
+                                <p>Player Name</p>
+                            </div>
+                            <div class="col">
+                                <p>Level</p>
+                            </div>
+                            <div class="col">
+                                <p>vocation</p>
+                            </div>
+                            <div class="col">
+                                <p>city</p>
+                            </div>
+                            <div class="col">
+                                <p>sex</p>
+                            </div>
+                        </div>   
+                    </div>
+                </div>
+                <div class="col">
+                    <h4 class="display-4">Delete By Id</h4>
+                    <label>id</label>
+                    <input id="idDelete" class="form-control"  placeholder="type id to delete"/>
+                    <button value="submit" class="btn btn-secondary" id="idDel">Delete</button>
+                </div>
+            </div>
+            
+        </div>
+        <script>
+                    const dataDiv = document.querySelector('#data');
+                    const subButton = document.querySelector('#sub');
+                    const delButton = document.querySelector('#idDel');
+
+                    
+                fetch('/players')
+                    .then(response=>response.text())
+                    .then(text => {
+                        dataDiv.innerHTML += JSON.parse(text).map(player=>`
+                                <div class="row">
+                                    <div class="col">${player.id}</div>
+                                    <div class="col">${player.name}</div>
+                                    <div class="col">${player.level}</div>
+                                    <div class="col">${player.vocation}</div>
+                                    <div class="col">${player.city}</div>
+                                    <div class="col">${player.sex}</div>
+                                </div>
+                            `).reduce((acc,item)=>acc + item, '')
+                    
+                    
+                    subButton.addEventListener('click', ()=>{
+                        const form = {};
+                        form["name"] = document.querySelector('#nam').value.trim();
+                        form["level"] = document.querySelector('#lev').value.trim();
+                        form["vocation"] = document.querySelector('#voc').value.trim();
+                        form["city"] = document.querySelector('#cit').value.trim();
+                        form["sex"] = document.querySelector('#sex').value.trim();
+
+                        fetch('/create_player', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json; charset=utf-8"
+                            },
+                            body: JSON.stringify(form)
+                        }).then(res=>res.text())
+                        .then(text=>{
+                            window.location = '/';
+                        });
+                });
+
+                delButton.addEventListener('click', ()=>{
+                        const form = {};
+                        form["idDelete"] = document.querySelector('#idDelete').value.trim();
+                        fetch('/delete_player', {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json; charset=utf-8"
+                            },
+                            body: JSON.stringify(form)
+                        }).then(res=>res.text())
+                        .then(text=>{
+                            window.location = '/';
+                        });
+                });
+
+                        
+                    
+        
+    }
+    );
+
+        </script>
+</body>
+  </html>
+
+

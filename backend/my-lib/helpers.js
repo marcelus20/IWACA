@@ -1,15 +1,57 @@
 const libxmljs = require('libxmljs');
+const xmlParse = require('xslt-processor').xmlParse;
 const fs = require('fs');
 const config = require('./config')
+const xml2json = require('xml2json');
+var Validator = require('jsonschema').Validator;
+var v = new Validator();
+
 
 helpers = {};
 
-//@TODO needs looking after (returning the correct schema)
-helpers.validateSchema = (xsdFile, xmlFile) => {
-    const xsdDoc = libxmljs.parseXmlString(xsdFile);
-    const xmlDoc = libxmljs.parseXmlString(xmlFile);
-    console.log(xmlDoc.validationErrors);
-    return true;//xmlDoc.validate(xsdDoc);
+
+helpers.validateSchema = (instance, schema) => {
+    return v.validate(instance, schema);
+}
+
+
+helpers.readFile = (path) => fs.readFileSync(path, 'utf-8');
+
+
+helpers.writeFile = (dir, content, callback) => {
+   fs.writeFileSync(dir, content, {flag: 'w'});
+   callback();
+};
+
+helpers.delete = (id, arr) =>{
+    const index = helpers.search(id, arr);
+    if(index < 0) return [...arr];
+    arr.splice(index, 1);
+    return [...arr];
+}
+
+helpers.search = (id, arr) => {
+    let index = 0;
+    for(player of arr){
+        if (player.id == id) return index;
+        index++;
+    }
+    return -1;
+}
+
+
+
+helpers.genRandomChars = (len) =>{
+    const chars = [
+    'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u',
+    'v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P',
+    'Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9','0'
+    ]
+    let str = "";
+    for(let i = 0; i < len; i++){
+        str += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return str;
 }
 
 module.exports = helpers;

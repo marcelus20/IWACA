@@ -7,6 +7,8 @@ const http = require('http');
 const express = require('express');
 const path = require('path');
 
+
+
 const Validator = require('jsonschema').Validator;
 
 
@@ -21,10 +23,18 @@ const router = express();
 const server = http.createServer(router);
 
 
-//routers
+//routers get
+router.use(express.static(path.join(__dirname, 'frontend')));
+router.use(express.json());
+
 router.get('/', handlers.main);
 router.get('/players', handlers.players)
-router.get('/quests', handlers.quests)
+
+//router post
+router.post('/create_player', handlers.createPlayer);
+
+//router delete
+router.delete('/delete_player', handlers.delete);
 
 
 server.listen(config.env.port, process.env.IP, ()=>{
