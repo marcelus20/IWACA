@@ -28,7 +28,10 @@ router.use(express.static(path.join(__dirname, 'frontend')));
 router.use(express.json());
 
 router.get('/', handlers.main);
-router.get('/players', handlers.players)
+router.get('/players', handlers.players);
+router.get('/cities', handlers.cities);
+router.get('/vocations', handlers.vocations);
+
 
 //router post
 router.post('/create_player', handlers.createPlayer);

@@ -15,14 +15,11 @@ handlers.main = (request, response) => {
             'Content-Type': 'text/html'
     }
     response.writeHead(200, header);
-
     const players = helpers.readFile(config.playersLocation);
-    const fileXls = helpers.readFile(config.xslIndexLocation);
     const schema = helpers.readFile(config.schemaLocation);
-    const doc = helpers.validateSchema(players,schema)?players:false;
-    const stylesheet = xmlParse(fileXls);
-    const result = doc?xslProcess_(doc, stylesheet).toString():"<html><body>invalid</body></html>";
-    response.end(result);
+    const toRespond = helpers.validateSchema(db, schema)
+    const doc = helpers.validateSchema(players,schema)?player:false;
+    response.end(doc);
 }
 
 handlers.players = (request, response) => {
@@ -31,6 +28,7 @@ handlers.players = (request, response) => {
     }
     response.writeHead(200, header)
     const db = JSON.parse(helpers.readFile(config.playersLocation));
+    const schema = helpers.readFile(config.schemaLocation);
     response.end(JSON.stringify(db.players));
 }
 
@@ -40,24 +38,47 @@ handlers.createPlayer = (request, response) => {
     const id = helpers.genRandomChars(20);
     const db = JSON.parse(helpers.readFile(config.playersLocation));
     const player = new Player(id, name, Number.parseInt(level), vocation, city, sex);
+    const schema = helpers.readFile(config.schemaLocation);
+
 
     db.players.push(player);
 
+    
+    helpers.writeFile(config.playersLocation, JSON.stringify(db), ()=>{
+        response.end('true');
+    });
+
+
+
+}
+
+handlers.delete = (request, response) => {
+    const {idDelete} = request.body;
+    const db = JSON.parse(helpers.readFile(config.playersLocation));
+    db.players = [...helpers.delete(idDelete, db.players)];
     helpers.writeFile(config.playersLocation, JSON.stringify(db), ()=>{
         response.end('Fine!');
     });
 }
 
-handlers.delete = (request, response) => {
-    const {idDelete} = request.body;
-    console.log(idDelete);
+handlers.cities = (request, response) =>{
+      const header = {
+            'Content-Type': 'application/json'
+    }
+    response.writeHead(200, header)
     const db = JSON.parse(helpers.readFile(config.playersLocation));
-    
-    db.players = [...helpers.delete(idDelete, db.players)];
+    const cities = db.cities;
+    response.end(JSON.stringify(cities));
+}
 
-    helpers.writeFile(config.playersLocation, JSON.stringify(db), ()=>{
-        response.end('Fine!');
-    });
+handlers.vocations = (request, response) =>{
+      const header = {
+            'Content-Type': 'application/json'
+    }
+    response.writeHead(200, header)
+    const db = JSON.parse(helpers.readFile(config.playersLocation));
+    const vocations = db.vocations;
+    response.end(JSON.stringify(vocations));
 }
 
 module.exports = handlers;

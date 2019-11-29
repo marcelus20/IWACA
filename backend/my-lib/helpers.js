@@ -3,15 +3,20 @@ const xmlParse = require('xslt-processor').xmlParse;
 const fs = require('fs');
 const config = require('./config')
 const xml2json = require('xml2json');
-var Validator = require('jsonschema').Validator;
-var v = new Validator();
+var validate = require('jsonschema').validate;
+
 
 
 helpers = {};
 
 
 helpers.validateSchema = (instance, schema) => {
-    return v.validate(instance, schema);
+    const players = instance.players;
+    schema = JSON.parse(schema);
+    // console.log(schema, players);
+
+    return players.map(player=>validate(player, schema).valid)
+                      .reduce((acc, item) => acc && item);
 }
 
 
