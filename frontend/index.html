@@ -33,7 +33,30 @@
                 </div>
                 <div class="data-table col">
                     <div class="table" id="data">
-                        <div class="title">
+                           
+                    </div>
+                </div>
+                <div class="col">
+                    <h4 class="display-4">Delete By Id</h4>
+                    <label>id</label>
+                    <input id="idDelete" class="form-control"  placeholder="type id to delete"/>
+                    <button value="submit" class="btn btn-secondary" id="idDel">Delete</button>
+                </div>
+            </div>
+            
+        </div>
+        <script>
+                    const dataDiv = document.querySelector('#data');
+                    const subButton = document.querySelector('#sub');
+                    const delButton = document.querySelector('#idDel');
+                    const selectCities = document.querySelector("#cit");
+                    const selectVoc = document.querySelector("#voc");
+
+                    
+                const getPlayers = () => {
+
+                    const tableHeader = `
+                    <div class="title">
                             <h2 class="display-2">Players List</h2>
                         </div>
                         <div class="row">
@@ -55,30 +78,14 @@
                             <div class="col">
                                 <p>sex</p>
                             </div>
-                        </div>   
-                    </div>
-                </div>
-                <div class="col">
-                    <h4 class="display-4">Delete By Id</h4>
-                    <label>id</label>
-                    <input id="idDelete" class="form-control"  placeholder="type id to delete"/>
-                    <button value="submit" class="btn btn-secondary" id="idDel">Delete</button>
-                </div>
-            </div>
-            
-        </div>
-        <script>
-                    const dataDiv = document.querySelector('#data');
-                    const subButton = document.querySelector('#sub');
-                    const delButton = document.querySelector('#idDel');
-                    const selectCities = document.querySelector("#cit");
-                    const selectVoc = document.querySelector("#voc");
-
+                        </div>
                     
-                fetch('/players')
+                    `;
+
+                    fetch('/players')
                     .then(response=>response.text())
                     .then(text => {
-                        dataDiv.innerHTML += JSON.parse(text).map(player=>`
+                        dataDiv.innerHTML = tableHeader + JSON.parse(text).map(player=>`
                                 <div class="row">
                                     <div class="col">${player.id}</div>
                                     <div class="col">${player.name}</div>
@@ -88,6 +95,10 @@
                                     <div class="col">${player.sex}</div>
                                 </div>
                             `).reduce((acc,item)=>acc + item, '')
+                     })
+                }
+
+                
 
                 fetch('/cities')
                     .then(response=> response.text())
@@ -122,7 +133,7 @@
                             body: JSON.stringify(form)
                         }).then(res=>res.text())
                         .then(text=>{
-                            window.location = '/';
+                            getPlayers();
                         });
                 });
 
@@ -137,15 +148,16 @@
                             body: JSON.stringify(form)
                         }).then(res=>res.text())
                         .then(text=>{
-                            window.location = '/';
+                            getPlayers();
                         });
                 });
+
+                getPlayers();
 
                         
                     
         
-    }
-    );
+;
 
         </script>
 </body>
