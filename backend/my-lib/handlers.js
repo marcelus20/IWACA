@@ -29,7 +29,11 @@ handlers.players = (request, response) => {
     response.writeHead(200, header)
     const db = JSON.parse(helpers.readFile(config.playersLocation));
     const schema = helpers.readFile(config.schemaLocation);
-    response.end(JSON.stringify(db.players));
+    
+    const result = db.players
+        .map(player=>helpers.validateSchema(player, schema))
+        .reduce((acc, item) => acc && item, true) ? JSON.stringify(db.players) : '[]';
+    response.end(result);
 }
 
 
@@ -40,25 +44,34 @@ handlers.createPlayer = (request, response) => {
     const player = new Player(id, name, Number.parseInt(level), vocation, city, sex);
     const schema = helpers.readFile(config.schemaLocation);
 
-
-    db.players.push(player);
-
-    
-    helpers.writeFile(config.playersLocation, JSON.stringify(db), ()=>{
+    if(helpers.validateSchema(player, schema)){
+        db.players.push(player);
+        helpers.writeFile(config.playersLocation, JSON.stringify(db), ()=>{
         response.end('true');
     });
+    } else{
+        response.end('false');
+    }
+
+    
+    
 
 
 
 }
 
 handlers.delete = (request, response) => {
-    const {idDelete} = request.body;
+    const idDelete = request.query.id;
     const db = JSON.parse(helpers.readFile(config.playersLocation));
-    db.players = [...helpers.delete(idDelete, db.players)];
-    helpers.writeFile(config.playersLocation, JSON.stringify(db), ()=>{
-        response.end('Fine!');
-    });
+    const newPLayers = helpers.delete(idDelete, db.players);
+    if(!newPLayers){
+        response.end('false');
+    }else{
+        db.players = [...newPLayers];
+        helpers.writeFile(config.playersLocation, JSON.stringify(db), ()=>{
+            response.end('true');
+        });
+    }
 }
 
 handlers.cities = (request, response) =>{

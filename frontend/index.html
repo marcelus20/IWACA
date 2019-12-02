@@ -34,7 +34,7 @@
                 </div>
                 <div class="data-table col">
                     <div class="table" id="data">
-                           
+                           Could not fetch data because it did not match schema
                     </div>
                 </div>
                 <div class="col">
@@ -49,6 +49,8 @@
         <div class="alert alert-success hide" role="alert" id="added">
             Player added successfully
         </div>
+        <div class="alert alert-danger hide" role="alert" id="failed">
+        </div>
         <script>
                     const added = document.querySelector('#added');
                     const dataDiv = document.querySelector('#data');
@@ -56,6 +58,7 @@
                     const delButton = document.querySelector('#idDel');
                     const selectCities = document.querySelector("#cit");
                     const selectVoc = document.querySelector("#voc");
+                    const failedAlert = document.querySelector('#failed');
 
                 const showElement = (el)=>{
                     el.classList.remove('hide');
@@ -69,7 +72,16 @@
                     showElement(el);
                     setTimeout(()=>{
                         hideElement(el);
-                    }, 3000);
+                    }, 10000);
+                }
+                const showSuccessAlert = msg =>{
+                    added.innerHTML = msg;
+                    showAndHide(added);
+                }
+
+                const showErrorAlert = msg =>{
+                    failedAlert.innerHTML = msg;
+                    showAndHide(failedAlert);
                 }
 
                     
@@ -105,16 +117,21 @@
                     fetch('/players')
                     .then(response=>response.text())
                     .then(text => {
+                        
+                            
                         dataDiv.innerHTML = tableHeader + JSON.parse(text).map(player=>`
-                                <div class="row">
-                                    <div class="col">${player.id}</div>
-                                    <div class="col">${player.name}</div>
-                                    <div class="col">${player.level}</div>
-                                    <div class="col">${player.vocation}</div>
-                                    <div class="col">${player.city}</div>
-                                    <div class="col">${player.sex}</div>
-                                </div>
-                            `).reduce((acc,item)=>acc + item, '')
+                            <div class="row">
+                                <div class="col">${player.id}</div>
+                                <div class="col">${player.name}</div>
+                                <div class="col">${player.level}</div>
+                                <div class="col">${player.vocation}</div>
+                                <div class="col">${player.city}</div>
+                                <div class="col">${player.sex}</div>
+                            </div>
+                        `).reduce((acc,item)=>acc + item, '')
+                        
+                        
+                        
                      })
                 }
 
@@ -153,23 +170,29 @@
                             body: JSON.stringify(form)
                         }).then(res=>res.text())
                         .then(text=>{
-                            showAndHide(added);
-                            getPlayers();
+                            if(text === 'true'){
+                                showSuccessAlert("Player Added Sucessfully");
+                                getPlayers();
+                            }else{
+                                showErrorAlert("Schema does not match or something else went wrong");
+                            }
+                            
                         });
                 });
 
                 delButton.addEventListener('click', ()=>{
-                        const form = {};
-                        form["idDelete"] = document.querySelector('#idDelete').value.trim();
-                        fetch('/delete_player', {
+                        const id = document.querySelector('#idDelete').value.trim();
+                        fetch(`/delete_player?id=${id}`, {
                             method: "DELETE",
-                            headers: {
-                                "Content-Type": "application/json; charset=utf-8"
-                            },
-                            body: JSON.stringify(form)
                         }).then(res=>res.text())
                         .then(text=>{
-                            getPlayers();
+                            if(text === 'false'){
+                                showErrorAlert('Id does not exist');
+                            }else{
+                                getPlayers();
+                                showSuccessAlert('Player successfully deleted!');
+                            }
+                            
                         });
                 });
 

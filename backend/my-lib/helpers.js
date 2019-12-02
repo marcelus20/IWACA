@@ -11,12 +11,8 @@ helpers = {};
 
 
 helpers.validateSchema = (instance, schema) => {
-    const players = instance.players;
-    schema = JSON.parse(schema);
-    // console.log(schema, players);
-
-    return players.map(player=>validate(player, schema).valid)
-                      .reduce((acc, item) => acc && item);
+    schema = typeof schema == 'string'? JSON.parse(schema): schema;
+    return validate(instance, schema).valid;
 }
 
 
@@ -30,7 +26,7 @@ helpers.writeFile = (dir, content, callback) => {
 
 helpers.delete = (id, arr) =>{
     const index = helpers.search(id, arr);
-    if(index < 0) return [...arr];
+    if(index < 0) return false;
     arr.splice(index, 1);
     return [...arr];
 }
