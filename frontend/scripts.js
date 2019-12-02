@@ -112,7 +112,7 @@ subButton.addEventListener('click', ()=>{
     }).then(res=>res.text())
     .then(text=>{
         if(text === 'true'){
-            showSuccessAlert("Player Added Sucessfully");
+            showSuccessAlert("Player added successfully. Please, scroll table to see the record in the last row");
             getPlayers();
         }else{
             showErrorAlert("Schema does not match or something else went wrong");

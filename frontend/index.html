@@ -4,10 +4,16 @@
         <link rel="stylesheet" href="index.css" />
     </head>
     <body>          
-        <div class="table wrap">
-            <div class="row">
-                <div class="myform col">   
-                    <label>Player Name</label>
+        <div class="wrap">
+            <div class="alert alert-success hide centrilize" role="alert" id="added">
+                Player added successfully. Please, scroll table to see the record in the last row
+            </div>
+            <div class="alert alert-danger hide centrilize" role="alert" id="failed">
+            </div>
+            <div class="row_">
+                <div class="column-left">   
+                    <div class="myform">
+                        <label>Player Name</label>
                     <input id="nam" class="form-control" name="name_" placeholder="type name"/>
                     <label>Level</label>
                     <input type="number" id="lev" class="form-control" name="level_" placeholder="type level"/>
@@ -30,24 +36,27 @@
                     </div>
                     <button value="submit" class="btn btn-secondary" id="sub">Submit</button>            
                 </div>
-                <div class="data-table col">
-                    <div class="table" id="data">
-                            Could not fetch data because it did not match schema
+                    <hr>
+                    <div class="breaklines">
+                    <div class="myform">
+                        <h4 class="display-4">Delete By Id</h4>
+                        <label>id</label>
+                        <input id="idDelete" class="form-control"  placeholder="type id to delete"/>
+                        <button value="submit" class="btn btn-secondary" id="idDel">Delete</button>
                     </div>
+                    
                 </div>
-                <div class="col">
-                    <h4 class="display-4">Delete By Id</h4>
-                    <label>id</label>
-                    <input id="idDelete" class="form-control"  placeholder="type id to delete"/>
-                    <button value="submit" class="btn btn-secondary" id="idDel">Delete</button>
+                    
+                </div>
+                <div class="data-table column-middle">
+                    <div class="table-conainer">
+                        <div class="table" id="data">
+                            Could not fetch data because it did not match schema
+                        </div>
+                    </div>
                 </div>
             </div>
             
-        </div>
-        <div class="alert alert-success hide" role="alert" id="added">
-            Player added successfully
-        </div>
-        <div class="alert alert-danger hide" role="alert" id="failed">
         </div>
         <script src="scripts.js">
         </script>
