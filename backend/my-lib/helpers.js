@@ -1,10 +1,6 @@
-const libxmljs = require('libxmljs');
-const xmlParse = require('xslt-processor').xmlParse;
+const validate = require('jsonschema').validate;
 const fs = require('fs');
 const config = require('./config')
-const xml2json = require('xml2json');
-var validate = require('jsonschema').validate;
-
 
 
 helpers = {};

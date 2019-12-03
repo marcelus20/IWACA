@@ -1,11 +1,6 @@
-var xml = require("js2xmlparser");
 const fs = require('fs');
-const xslProcess_ = require('xslt-processor').xsltProcess;
 const config = require('../my-lib/config');
 const Player = require('../models/pojos').Player;
-const xml2json = require('xml2json');
-
-
 
 handlers = {};
 
