@@ -5,6 +5,18 @@ const delButton = document.querySelector('#idDel');
 const selectCities = document.querySelector("#cit");
 const selectVoc = document.querySelector("#voc");
 const failedAlert = document.querySelector('#failed');
+const idField = document.querySelector('#idDelete');
+
+
+const nameField = document.querySelector('#nam');
+const levelField = document.querySelector('#lev');
+const vocationField = document.querySelector('#voc');
+const cityfield = document.querySelector('#cit');
+const sextField = document.querySelector('#sex');
+
+
+
+
 
 const showElement = (el)=>{
     el.classList.remove('hide');
@@ -93,15 +105,17 @@ fetch('/vocations')
         <option>${vocation}</option>
         `).reduce((acc, item)=>acc + item), '';
 });
-                    
+         
+
                     
 subButton.addEventListener('click', ()=>{
-    const form = {};
-    form["name"] = document.querySelector('#nam').value.trim();
-    form["level"] = document.querySelector('#lev').value.trim();
-    form["vocation"] = document.querySelector('#voc').value.trim();
-    form["city"] = document.querySelector('#cit').value.trim();
-    form["sex"] = document.querySelector('#sex').value.trim();
+    const form = new Form(
+        document.querySelector('#nam').value.trim(),
+        document.querySelector('#lev').value.trim(),
+        document.querySelector('#voc').value.trim(),
+        document.querySelector('#cit').value.trim(),
+        document.querySelector('#sex').value.trim(),
+    );
 
     fetch('/create_player', {
         method: "POST",
@@ -121,7 +135,7 @@ subButton.addEventListener('click', ()=>{
 });
 
 delButton.addEventListener('click', ()=>{
-    const id = document.querySelector('#idDelete').value.trim();
+    const id = idField.value.trim();
     fetch(`/delete_player?id=${id}`, {
         method: "DELETE",
     }).then(res=>res.text())
@@ -135,6 +149,53 @@ delButton.addEventListener('click', ()=>{
         
     });
 });
+
+
+idField.addEventListener('keyup', ()=>{
+    const warningDel = document.querySelector('#warning-del');
+
+    if(idField.value.trim().length == 20){
+        hideElement(warningDel);
+        delButton.disabled = false;
+    }else{
+        showElement(warningDel);
+        delButton.disabled = true;
+    }
+});
+
+
+const checkEnablingButton = () => {
+    buttonToEnable = subButton;
+    const form = new Form(
+        nameField.value.trim(),
+        levelField.value.trim(),
+        vocationField.value.trim(),
+        cityfield.value.trim(),
+        sextField.value.trim()
+    );
+    const warning = document.querySelector('#warning-sub');
+    
+    if(form.isValid()){
+        hideElement(warning);
+        subButton.disabled = false;
+    }else{
+        showElement(warning)
+        subButton.disabled = true;
+    }
+}
+
+nameField.addEventListener('keyup', checkEnablingButton);
+levelField.addEventListener('keyup', checkEnablingButton);
+levelField.addEventListener('click', checkEnablingButton);
+levelField.addEventListener('change', checkEnablingButton);
+vocationField.addEventListener('change', checkEnablingButton);
+cityfield.addEventListener('change', checkEnablingButton);
+sextField.addEventListener('change', checkEnablingButton);
+
+
+
+
+
 
 getPlayers();
                 
