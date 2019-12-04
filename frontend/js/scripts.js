@@ -14,7 +14,88 @@ const vocationField = document.querySelector('#voc');
 const cityfield = document.querySelector('#cit');
 const sextField = document.querySelector('#sex');
 
+const alphaOrder = document.querySelector('#alphaOrder');
+const levelOrder = document.querySelector('#levelOrder');
+const cityOrder = document.querySelector('#cityOrder');
 
+
+const render = () => {
+    const tableHeader = `
+    <div class="title">
+            <h2 class="display-2">Players List</h2>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>id</p>
+            </div>
+            <div class="col">
+                <p>Player Name</p>
+            </div>
+            <div class="col">
+                <p>Level</p>
+            </div>
+            <div class="col">
+                <p>vocation</p>
+            </div>
+            <div class="col">
+                <p>city</p>
+            </div>
+            <div class="col">
+                <p>sex</p>
+            </div>
+        </div>
+    
+    `;
+    const p = [...state.players];
+
+    switch(state.selectedOrder) {
+        case order.ALPHABETICAL:
+            p.sort((p1, p2)=> (p1.name > p2.name) - (p1.name < p2.name));
+            break;
+        case order.LEVEL:
+            p.sort((p1, p2)=> p2.level - p1.level);
+            break;
+        case order.CITY:
+            p.sort((p1, p2)=> (p1.city > p2.city) - (p1.city < p2.city));
+            break;
+    }
+
+    dataDiv.innerHTML =  tableHeader + p.map(player=>`
+        <div class="row">
+            <div class="col">${player.id}</div>
+            <div class="col">${player.name}</div>
+            <div class="col">${player.level}</div>
+            <div class="col">${player.vocation}</div>
+            <div class="col">${player.city}</div>
+            <div class="col">${player.sex}</div>
+        </div>
+    `).reduce((acc,item)=>acc + item, '');
+    
+}
+
+
+alphaOrder.addEventListener('click', ()=>{
+    if(state.selectedOrder != order.ALPHABETICAL){
+        state.selectedOrder = order.ALPHABETICAL;
+        render();
+    }
+    
+});
+
+levelOrder.addEventListener('click', ()=>{
+    if(state.selectedOrder != order.LEVEL){
+        state.selectedOrder = order.LEVEL;
+        render();
+    }
+    
+});
+
+cityOrder.addEventListener('click', ()=>{
+    if(state.selectedOrder != order.CITY){
+        state.selectedOrder = order.CITY;
+        render();
+    }
+});
 
 
 
@@ -75,16 +156,8 @@ const getPlayers = () => {
     fetch('/players')
     .then(response=>response.text())
     .then(text => {      
-        dataDiv.innerHTML = tableHeader + JSON.parse(text).map(player=>`
-            <div class="row">
-                <div class="col">${player.id}</div>
-                <div class="col">${player.name}</div>
-                <div class="col">${player.level}</div>
-                <div class="col">${player.vocation}</div>
-                <div class="col">${player.city}</div>
-                <div class="col">${player.sex}</div>
-            </div>
-        `).reduce((acc,item)=>acc + item, '')   
+        state.players = [...JSON.parse(text)];
+        render();
     });
 }
 

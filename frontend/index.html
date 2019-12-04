@@ -55,7 +55,14 @@
                     
                 </div>
                 <div class="data-table column-middle">
-                    <div class="table-conainer">
+                    
+                    <div class="">
+                        <input type="radio" class="form-check-input" name="order" value="alphabetical" checked id="alphaOrder">order by name
+                        <input type="radio" class="form-check-input" name="order" value="level" id="levelOrder"> order by level
+                        <input type="radio" class="form-check-input" name="order" value="city" id="cityOrder"> order by city 
+                        <div class="table-conainer">
+                    </div>
+                    
                         <div class="table" id="data">
                             Could not fetch data because it did not match schema
                         </div>
@@ -64,6 +71,7 @@
             </div>
             
         </div>
+        <script src="js/appState.js"></script>
         <script src="js/Form.js"></script>
         <script src="js/scripts.js">
         </script>
