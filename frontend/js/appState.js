@@ -7,5 +7,6 @@ const order = {
 
 const state = {
     selectedOrder: order.ALPHABETICAL,
+    render:false,
     players:[],
 };

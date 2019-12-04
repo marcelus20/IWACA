@@ -19,8 +19,12 @@ const levelOrder = document.querySelector('#levelOrder');
 const cityOrder = document.querySelector('#cityOrder');
 
 
-const render = () => {
-    const tableHeader = `
+const renderData = () => {
+    
+    if(!state.render){
+        dataDiv.innerHTML = "Could not load data from server. Schema may have not matched."
+    }else{
+        const tableHeader = `
     <div class="title">
             <h2 class="display-2">Players List</h2>
         </div>
@@ -70,14 +74,14 @@ const render = () => {
             <div class="col">${player.sex}</div>
         </div>
     `).reduce((acc,item)=>acc + item, '');
-    
+    }  
 }
 
 
 alphaOrder.addEventListener('click', ()=>{
     if(state.selectedOrder != order.ALPHABETICAL){
         state.selectedOrder = order.ALPHABETICAL;
-        render();
+        renderData();
     }
     
 });
@@ -85,7 +89,7 @@ alphaOrder.addEventListener('click', ()=>{
 levelOrder.addEventListener('click', ()=>{
     if(state.selectedOrder != order.LEVEL){
         state.selectedOrder = order.LEVEL;
-        render();
+        renderData();
     }
     
 });
@@ -93,7 +97,7 @@ levelOrder.addEventListener('click', ()=>{
 cityOrder.addEventListener('click', ()=>{
     if(state.selectedOrder != order.CITY){
         state.selectedOrder = order.CITY;
-        render();
+        renderData();
     }
 });
 
@@ -125,39 +129,13 @@ const showErrorAlert = msg =>{
 
                     
 const getPlayers = () => {
-
-    const tableHeader = `
-    <div class="title">
-            <h2 class="display-2">Players List</h2>
-        </div>
-        <div class="row">
-            <div class="col">
-                <p>id</p>
-            </div>
-            <div class="col">
-                <p>Player Name</p>
-            </div>
-            <div class="col">
-                <p>Level</p>
-            </div>
-            <div class="col">
-                <p>vocation</p>
-            </div>
-            <div class="col">
-                <p>city</p>
-            </div>
-            <div class="col">
-                <p>sex</p>
-            </div>
-        </div>
-    
-    `;
-
     fetch('/players')
     .then(response=>response.text())
     .then(text => {      
-        state.players = [...JSON.parse(text)];
-        render();
+        const {data, render} = JSON.parse(text);
+        state.render = render
+        state.players = [...data];
+        renderData();
     });
 }
 

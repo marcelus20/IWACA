@@ -1,6 +1,7 @@
 const fs = require('fs');
 const config = require('../my-lib/config');
 const Player = require('../models/pojos').Player;
+const DataStatus = require('../models/pojos').DataStatus;
 
 handlers = {};
 
@@ -27,7 +28,7 @@ handlers.players = (request, response) => {
     
     const result = db.players
         .map(player=>helpers.validateSchema(player, schema))
-        .reduce((acc, item) => acc && item, true) ? JSON.stringify(db.players) : '[]';
+        .reduce((acc, item) => acc && item, true) ? JSON.stringify(new DataStatus(db.players, true)) : JSON.stringify(new DataStatus([], false));
     response.end(result);
 }
 

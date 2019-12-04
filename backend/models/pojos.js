@@ -14,6 +14,13 @@ pojo.Player = class{
     }
 }
 
+pojo.DataStatus = class {
+    constructor(data, render){
+        this.data = data;
+        this.render = render;
+    }
+}
+
 
 
 
