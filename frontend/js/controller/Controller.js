@@ -5,9 +5,6 @@ class Controller {
     static controller;
 
     constructor(){
-        this.getVocations();
-        this.getCities();
-
     }
 
     static init() {
@@ -16,35 +13,38 @@ class Controller {
         return this.controller;
     }
 
-    getPlayers (){
+    getPlayers (callback){
         fetch('/players')
         .then(response=>response.text())
         .then(text => {      
             const {data, render} = JSON.parse(text);
             state.render = render
             state.players = [...data];
-            renderData();
+            callback();
         });
     }
 
-    getCities(){
+    getCities(callback){
         fetch('/cities')
         .then(response=> response.text())
         .then(json=>{
             state.cities = JSON.parse(json);
+            callback();
         });
     }
 
-    getVocations(){
+    getVocations(callback){
+        
         fetch('/vocations')
             .then(response=> response.text())
             .then(json=>{
                 state.vocations = JSON.parse(json);
+                callback();
         });
     }
 
-    createPlayers(form){
-        fetch('/create_player', {
+    createPlayers(form, callback){
+        fetch('/player', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
@@ -54,31 +54,31 @@ class Controller {
             .then(text=>{
                 if(text === 'true'){
                     showSuccessAlert("Player added successfully. Please, scroll table to see the record in the last row");
-                    this.getPlayers();
+                    this.getPlayers(()=>callback());
                 }else{
                     showErrorAlert("Schema does not match or something else went wrong");
                 }      
             });
     }
 
-    deleteRecord(id){
+    deleteRecord(id, callback){
         const id_ = id.trim();
-        fetch(`/delete_player?id=${id_}`, {
+        fetch(`/player?id=${id_}`, {
             method: "DELETE",
         }).then(res=>res.text())
         .then(text=>{
             if(text === 'false'){
                 showErrorAlert('Id does not exist');
             }else{
-                this.getPlayers();
+                this.getPlayers(()=>callback());
                 showSuccessAlert('Player successfully deleted!');
             }       
         });
     }
 
 
-    update_player(player){
-        fetch('/update_player',{
+    update_player(player, callback){
+        fetch('/player',{
             headers:{
                 "Content-Type": "application/json; charset=utf-8"
             },
@@ -88,12 +88,11 @@ class Controller {
                 .then(text=>{
                     if('true'){
                         showSuccessAlert("Player updated sucesssfuly");
-                        this.getPlayers();
+                        this.getPlayers(()=>callback());
                     }else{
                         showErrorAlert("Something went wrong. Deletion did not complete");
                     }
                 });
-        modal.style.display = "none";
     }
 
 

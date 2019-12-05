@@ -8,8 +8,6 @@ const express = require('express');
 const path = require('path');
 const expAutoSan = require('express-autosanitizer');
 
-
-
 const Validator = require('jsonschema').Validator;
 
 
@@ -20,6 +18,8 @@ const handlers = require('./backend/my-lib/handlers');
 
 
 const v = new Validator();
+
+
 const router = express();
 const server = http.createServer(router);
 
@@ -36,13 +36,13 @@ router.get('/vocations', handlers.vocations);
 
 
 //router post
-router.post('/create_player', handlers.createPlayer);
+router.post('/player', handlers.createPlayer);
 
 //updating
-router.put('/update_player', handlers.update);
+router.put('/player', handlers.update);
 
 //router delete
-router.delete('/delete_player', handlers.delete);
+router.delete('/player', handlers.delete);
 
 
 server.listen(config.env.port, process.env.IP, ()=>{

@@ -74,22 +74,26 @@ const renderData = ()=>{
             <div class="col">${city}</div>
             <div class="col">${sex}</div>
             <div class="col"><button type="button" onclick="trigerModal('${id}')" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-info btn-lg" id="${id}">Update</button></div>
-            <div class="col"><button type="button" onclick="controller.deleteRecord('${id}')" data-toggle="modal"  class="btn btn-danger btn-info btn-lg">Delete</button></div>
+            <div class="col"><button type="button" onclick="controller.deleteRecord('${id}', renderData)" data-toggle="modal"  class="btn btn-danger btn-info btn-lg">Delete</button></div>
         </div>
     `).reduce((acc,item)=>acc + item, '');
     }  
 
-    controller.getCities();
+    const populateCity = () =>{
+         selectCities.innerHTML = state.cities.map(city=>`
+            <option>${city}</option>
+            `).reduce((acc, item)=>acc + item), '';
+    }
 
-    controller.getVocations();
+    const populateVocation = () => {
+        selectVoc.innerHTML = state.vocations.map(vocation=>`
+            <option>${vocation}</option>
+            `).reduce((acc, item)=>acc + item), '';
+    }
 
-    selectCities.innerHTML = state.cities.map(city=>`
-        <option>${city}</option>
-        `).reduce((acc, item)=>acc + item), '';
-    
-    selectVoc.innerHTML = state.vocations.map(vocation=>`
-    <option>${vocation}</option>
-    `).reduce((acc, item)=>acc + item), '';
+    controller.getCities(populateCity);
+
+    controller.getVocations(populateVocation);  
 }
 
 
@@ -155,7 +159,7 @@ subButton.addEventListener('click', ()=>{
         document.querySelector('#sex').value.trim(),
     );
 
-        controller.createPlayers(form);
+        controller.createPlayers(form, ()=>renderData());
 });
 
 
@@ -180,11 +184,6 @@ const checkEnablingButton = () => {
     }
 }
 
-subModal.addEventListener('click', ()=>{
-        const player_ = new Player(id, n.value, l.value, v.value, c.value, s.value);
-        controller.updatePlayer(player_);
-});
-
 
 nameField.addEventListener('keyup', checkEnablingButton);
 levelField.addEventListener('keyup', checkEnablingButton);
@@ -197,5 +196,5 @@ sextField.addEventListener('change', checkEnablingButton);
 
 
 
-controller.getPlayers();
+controller.getPlayers(renderData);
                 

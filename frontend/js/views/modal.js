@@ -59,4 +59,10 @@ const trigerModal = (id) =>{
         modal.style.display = "none";
     }
 
+    subModal.addEventListener('click', ()=>{
+        const player_ = new Player(id, n.value, l.value, v.value, c.value, s.value);
+        Controller.init().update_player(player_, renderData);
+        modal.style.display = "none";
+    });
+
 }
