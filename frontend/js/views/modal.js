@@ -1,12 +1,13 @@
 const trigerModal = (id) =>{
-
+    
     const n = document.querySelector('#namModal');
     const l = document.querySelector('#levModal');
     const v = document.querySelector('#vocModal');
     const c = document.querySelector('#citModal');
     const s = document.querySelector('#sexModal');
 
-
+    const subModal = document.querySelector('#subModal');
+    
     const checkValidation = () =>{
         const form = new Form(
             n.value.trim(),
@@ -24,22 +25,24 @@ const trigerModal = (id) =>{
         }
     }
 
+    const {name, level, vocation, city, sex} = state.players.filter(p=>p.id == id)[0];
+
+    n.value = name;
+    l.value = level;
+    v.innerHTML = state.vocations.map(v_=>`<option>${v_}</option>`);
+    v.value = vocation;
+    c.innerHTML = state.cities.map(c_=>`<option>${c_}</option>`);
+    c.value = city
+    s.value = sex
+
+    checkValidation();
+
+
     n.addEventListener('keyup', checkValidation);
     l.addEventListener('keyup', checkValidation);
     v.addEventListener('keyup', checkValidation);
     c.addEventListener('keyup', checkValidation);
     s.addEventListener('keyup', checkValidation);
-
-
-    const player = state.players.filter(p=>p.id == id)[0];
-
-    console.log(player);
-    
-    n.value = player.name;
-    l.value = player.level;
-    v.innerHTML = state.vocations.map(v_=>`<option>${v_}</option>`);
-    c.innerHTML = state.cities.map(c_=>`<option>${c_}</option>`);
-
 
 
     // Get the modal
@@ -56,29 +59,4 @@ const trigerModal = (id) =>{
         modal.style.display = "none";
     }
 
-    const subModal = document.querySelector('#subModal');
-
-
-    subModal.addEventListener('click', ()=>{
-
-
-        const player_ = new Player(id, n.value, l.value, v.value, c.value, s.value);
-
-        fetch('/update_player',{
-            headers:{
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            method:'PUT',
-            body:JSON.stringify(player_),
-        });
-
-        modal.style.display = "none";
-        showSuccessAlert("Player updated sucesssfuly");
-        getPlayers();
-
-
-
-    });
-    
-    
 }

@@ -1,3 +1,6 @@
+const controller = Controller.init();
+
+
 const added = document.querySelector('#added');
 const dataDiv = document.querySelector('#data');
 const subButton = document.querySelector('#sub');
@@ -5,7 +8,6 @@ const delButton = document.querySelector('#idDel');
 const selectCities = document.querySelector("#cit");
 const selectVoc = document.querySelector("#voc");
 const failedAlert = document.querySelector('#failed');
-
 
 const nameField = document.querySelector('#nam');
 const levelField = document.querySelector('#lev');
@@ -18,23 +20,7 @@ const levelOrder = document.querySelector('#levelOrder');
 const cityOrder = document.querySelector('#cityOrder');
 
 
-const deleteRecord = (id) =>{
-    const id_ = id.trim();
-    fetch(`/delete_player?id=${id_}`, {
-        method: "DELETE",
-    }).then(res=>res.text())
-    .then(text=>{
-        if(text === 'false'){
-            showErrorAlert('Id does not exist');
-        }else{
-            getPlayers();
-            showSuccessAlert('Player successfully deleted!');
-        }
-        
-    });
-}
-
-const renderData = () => {
+const renderData = ()=>{
     
     if(!state.render){
         dataDiv.innerHTML = "Could not load data from server. Schema may have not matched."
@@ -88,10 +74,14 @@ const renderData = () => {
             <div class="col">${city}</div>
             <div class="col">${sex}</div>
             <div class="col"><button type="button" onclick="trigerModal('${id}')" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-info btn-lg" id="${id}">Update</button></div>
-            <div class="col"><button type="button" onclick="deleteRecord('${id}')" data-toggle="modal"  class="btn btn-danger btn-info btn-lg">Delete</button></div>
+            <div class="col"><button type="button" onclick="controller.deleteRecord('${id}')" data-toggle="modal"  class="btn btn-danger btn-info btn-lg">Delete</button></div>
         </div>
     `).reduce((acc,item)=>acc + item, '');
     }  
+
+    controller.getCities();
+
+    controller.getVocations();
 
     selectCities.innerHTML = state.cities.map(city=>`
         <option>${city}</option>
@@ -101,6 +91,8 @@ const renderData = () => {
     <option>${vocation}</option>
     `).reduce((acc, item)=>acc + item), '';
 }
+
+
 
 
 alphaOrder.addEventListener('click', ()=>{
@@ -153,32 +145,6 @@ const showErrorAlert = msg =>{
 }
 
                     
-const getPlayers = () => {
-    fetch('/players')
-    .then(response=>response.text())
-    .then(text => {      
-        const {data, render} = JSON.parse(text);
-        state.render = render
-        state.players = [...data];
-        renderData();
-    });
-}
-
-                
-
-fetch('/cities')
-    .then(response=> response.text())
-    .then(json=>{
-        state.cities = JSON.parse(json);
-    });
-
-fetch('/vocations')
-    .then(response=> response.text())
-    .then(json=>{
-        state.vocations = JSON.parse(json);
-});
-         
-
                     
 subButton.addEventListener('click', ()=>{
     const form = new Form(
@@ -189,21 +155,7 @@ subButton.addEventListener('click', ()=>{
         document.querySelector('#sex').value.trim(),
     );
 
-    fetch('/create_player', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(form)
-    }).then(res=>res.text())
-    .then(text=>{
-        if(text === 'true'){
-            showSuccessAlert("Player added successfully. Please, scroll table to see the record in the last row");
-            getPlayers();
-        }else{
-            showErrorAlert("Schema does not match or something else went wrong");
-        }      
-    });
+        controller.createPlayers(form);
 });
 
 
@@ -228,6 +180,12 @@ const checkEnablingButton = () => {
     }
 }
 
+subModal.addEventListener('click', ()=>{
+        const player_ = new Player(id, n.value, l.value, v.value, c.value, s.value);
+        controller.updatePlayer(player_);
+});
+
+
 nameField.addEventListener('keyup', checkEnablingButton);
 levelField.addEventListener('keyup', checkEnablingButton);
 levelField.addEventListener('click', checkEnablingButton);
@@ -239,7 +197,5 @@ sextField.addEventListener('change', checkEnablingButton);
 
 
 
-
-
-getPlayers();
+controller.getPlayers();
                 
