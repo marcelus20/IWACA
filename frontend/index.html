@@ -39,21 +39,7 @@
                      Validate form: Name should have at least 3 characters and level must be a number greater than 0 and smaller than 1000
                         </div>          
                 </div>
-                    <hr>
-                    <div class="breaklines">
-                    <div class="myform">
-                        <h4 class="display-4">Delete By Id</h4>
-                        <label>id</label>
-                        <input id="idDelete" class="form-control"  placeholder="type id to delete"/>
-                        <button value="submit" class="btn btn-secondary" disabled id="idDel">Delete</button>
-                         <div class="alert alert-warning centrilize" role="alert" id="warning-del">
-                            Id must have length of 20 characteres
-                        </div>
-                    </div>
-                    
-                </div>
-                    
-                </div>
+            </div>
                 <div class="data-table column-middle">
                     
                     <div class="">
@@ -71,10 +57,45 @@
             </div>
             
         </div>
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="myform">
+                        <label>Player Name</label>
+                    <input id="namModal" class="form-control" name="name_" placeholder="type name"/>
+                    <label>Level</label>
+                    <input type="number" id="levModal" class="form-control" name="level_" placeholder="type level"/>
+                    <div class="form-group">
+                        <label for="cityModal">Vocation</label>
+                        <select class="form-control" id="vocModal">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <select class="form-control" id="citModal">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Sex</label>
+                        <select class="form-control" id="sexModal">
+                        <option>F</option>
+                        <option>M</option>
+                        </select>
+                    </div>
+                    <button value="submitModal" class="btn btn-secondary" id="subModal" disabled>Submit</button>  
+  </div>
+
+</div>
+
         <script src="js/appState.js"></script>
         <script src="js/Form.js"></script>
         <script src="js/scripts.js">
         </script>
+        <script src="js/Player.js"></script>
+        <script src="js/modal.js"></script>
     </body>
 </html>
 

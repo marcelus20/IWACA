@@ -6,6 +6,7 @@
 const http = require('http');
 const express = require('express');
 const path = require('path');
+const expAutoSan = require('express-autosanitizer');
 
 
 
@@ -26,6 +27,7 @@ const server = http.createServer(router);
 //routers get
 router.use(express.static(path.join(__dirname, 'frontend')));
 router.use(express.json());
+router.use(expAutoSan.allUnsafe);
 
 router.get('/', handlers.main);
 router.get('/players', handlers.players);
@@ -35,6 +37,9 @@ router.get('/vocations', handlers.vocations);
 
 //router post
 router.post('/create_player', handlers.createPlayer);
+
+//updating
+router.put('/update_player', handlers.update);
 
 //router delete
 router.delete('/delete_player', handlers.delete);

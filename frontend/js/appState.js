@@ -9,4 +9,6 @@ const state = {
     selectedOrder: order.ALPHABETICAL,
     render:false,
     players:[],
+    cities:[],
+    vocations:[]
 };

@@ -5,7 +5,6 @@ const delButton = document.querySelector('#idDel');
 const selectCities = document.querySelector("#cit");
 const selectVoc = document.querySelector("#voc");
 const failedAlert = document.querySelector('#failed');
-const idField = document.querySelector('#idDelete');
 
 
 const nameField = document.querySelector('#nam');
@@ -18,6 +17,22 @@ const alphaOrder = document.querySelector('#alphaOrder');
 const levelOrder = document.querySelector('#levelOrder');
 const cityOrder = document.querySelector('#cityOrder');
 
+
+const deleteRecord = (id) =>{
+    const id_ = id.trim();
+    fetch(`/delete_player?id=${id_}`, {
+        method: "DELETE",
+    }).then(res=>res.text())
+    .then(text=>{
+        if(text === 'false'){
+            showErrorAlert('Id does not exist');
+        }else{
+            getPlayers();
+            showSuccessAlert('Player successfully deleted!');
+        }
+        
+    });
+}
 
 const renderData = () => {
     
@@ -64,17 +79,27 @@ const renderData = () => {
             break;
     }
 
-    dataDiv.innerHTML =  tableHeader + p.map(player=>`
+    dataDiv.innerHTML =  tableHeader + p.map(({id, name, level, vocation, city, sex}) =>`
         <div class="row">
-            <div class="col">${player.id}</div>
-            <div class="col">${player.name}</div>
-            <div class="col">${player.level}</div>
-            <div class="col">${player.vocation}</div>
-            <div class="col">${player.city}</div>
-            <div class="col">${player.sex}</div>
+            <div class="col">${id}</div>
+            <div class="col">${name}</div>
+            <div class="col">${level}</div>
+            <div class="col">${vocation}</div>
+            <div class="col">${city}</div>
+            <div class="col">${sex}</div>
+            <div class="col"><button type="button" onclick="trigerModal('${id}')" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-info btn-lg" id="${id}">Update</button></div>
+            <div class="col"><button type="button" onclick="deleteRecord('${id}')" data-toggle="modal"  class="btn btn-danger btn-info btn-lg">Delete</button></div>
         </div>
     `).reduce((acc,item)=>acc + item, '');
     }  
+
+    selectCities.innerHTML = state.cities.map(city=>`
+        <option>${city}</option>
+        `).reduce((acc, item)=>acc + item), '';
+    
+    selectVoc.innerHTML = state.vocations.map(vocation=>`
+    <option>${vocation}</option>
+    `).reduce((acc, item)=>acc + item), '';
 }
 
 
@@ -144,17 +169,13 @@ const getPlayers = () => {
 fetch('/cities')
     .then(response=> response.text())
     .then(json=>{
-        selectCities.innerHTML = JSON.parse(json).map(city=>`
-        <option>${city}</option>
-        `).reduce((acc, item)=>acc + item), '';
+        state.cities = JSON.parse(json);
     });
 
 fetch('/vocations')
     .then(response=> response.text())
     .then(json=>{
-        selectVoc.innerHTML = JSON.parse(json).map(vocation=>`
-        <option>${vocation}</option>
-        `).reduce((acc, item)=>acc + item), '';
+        state.vocations = JSON.parse(json);
 });
          
 
@@ -185,34 +206,6 @@ subButton.addEventListener('click', ()=>{
     });
 });
 
-delButton.addEventListener('click', ()=>{
-    const id = idField.value.trim();
-    fetch(`/delete_player?id=${id}`, {
-        method: "DELETE",
-    }).then(res=>res.text())
-    .then(text=>{
-        if(text === 'false'){
-            showErrorAlert('Id does not exist');
-        }else{
-            getPlayers();
-            showSuccessAlert('Player successfully deleted!');
-        }
-        
-    });
-});
-
-
-idField.addEventListener('keyup', ()=>{
-    const warningDel = document.querySelector('#warning-del');
-
-    if(idField.value.trim().length == 20){
-        hideElement(warningDel);
-        delButton.disabled = false;
-    }else{
-        showElement(warningDel);
-        delButton.disabled = true;
-    }
-});
 
 
 const checkEnablingButton = () => {
