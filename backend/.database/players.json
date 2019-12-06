@@ -103,6 +103,22 @@
       "vocation": "master sorcerer",
       "city": "Ab'Dendriel",
       "sex": "M"
+    },
+    {
+      "id": "jgVnr1i083xWBJBwAY6B",
+      "name": "Abigail",
+      "level": 50,
+      "vocation": "elite knight",
+      "city": "Thais",
+      "sex": "F"
+    },
+    {
+      "id": "zna1NCYPImzlb9WTVbaB",
+      "name": "Ajenor Notari",
+      "level": 500,
+      "vocation": "sorcerer",
+      "city": "Yalahar",
+      "sex": "F"
     }
   ],
   "cities": [

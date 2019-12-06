@@ -1,13 +1,120 @@
 const controller = Controller.init();
 
 
-const added = document.querySelector('#added');
+const sucessAlert = document.querySelector('#sucess-alert');
 const dataDiv = document.querySelector('#fetch-data');
 const subButton = document.querySelector('#sub');
 const delButton = document.querySelector('#idDel');
-const selectCities = document.querySelector("#cit");
-const selectVoc = document.querySelector("#voc");
-const failedAlert = document.querySelector('#failed');
+
+
+
+const nameWarning = document.querySelector("#name-warning");
+const levelWarning = document.querySelector("#level-warning");
+const nameInput = document.querySelector("#name-input");
+const levelInput = document.querySelector("#level-input");
+const createPlayerButton = document.querySelector('#create-player-button');
+const form_ = document.querySelector('#form');
+const selectCities = document.querySelector("#city-select");
+const selectVoc = document.querySelector("#vocation-select");
+const radioM = document.querySelector("#radio-m");
+const radioF = document.querySelector("#radio-f");
+const sex = radioM.checked?radioM:radioF;
+
+
+
+
+const renderData = ()=>{
+    
+    if(!state.render){
+        dataDiv.innerHTML = "Could not load data from server. Schema may have not matched."
+    }else{
+        dataDiv.innerHTML = "";
+    
+        const p = [...state.players];
+
+        switch(state.selectedOrder) {
+            case order.ALPHABETICAL:
+                p.sort((p1, p2)=> (p1.name > p2.name) - (p1.name < p2.name));
+                break;
+            case order.LEVEL:
+                p.sort((p1, p2)=> p2.level - p1.level);
+                break;
+            case order.CITY:
+                p.sort((p1, p2)=> (p1.city > p2.city) - (p1.city < p2.city));
+                break;
+        }
+
+        dataDiv.innerHTML += p.map(({id, name, level, vocation, city, sex}) =>`
+            <tr>
+                <td class="col">${id}</td>
+                <td>${name}</td>
+                <td>${level}</td>
+                <td>${vocation}</td>
+                <td>${city}</td>
+                <td>${sex}</td>
+                <td><button class="btn btn-primary" lg>Update</button><td>
+                <td"><button class="btn btn-danger lg">Delete</button></div>
+            </div>
+        `).reduce((acc,item)=>acc + item, '');
+}  
+
+
+
+
+
+form_.addEventListener('submit', (e)=>{
+    e.preventDefault();
+     e.stopImmediatePropagation();
+
+    const form = new Form(
+        nameInput.value.trim(),
+        levelInput.value.trim(),
+        selectVoc.value.trim(),
+        selectCities.value.trim(),
+        sex.value.trim()
+    );
+
+    if(form.isValid()){
+        document.getElementById('id01').style.display='none';
+        controller.createPlayers(form, renderData);
+        
+    }
+});
+
+
+
+nameInput.addEventListener('keyup', ()=>{
+    if(nameInput.value.length >= 3){
+        hideElement(nameWarning);
+        if(Number.parseInt(levelInput.value) > 0 && Number.parseInt(levelInput.value) <= 1000) createPlayerButton.disabled = false;
+    }else{
+        createPlayerButton.disabled = true;
+        showElement(nameWarning);
+    }
+});
+
+levelInput.addEventListener('keyup', ()=>{
+    if(Number.parseInt(levelInput.value) > 0 && Number.parseInt(levelInput.value) <= 1000){
+        hideElement(levelWarning);
+        if (nameInput.value.length >= 3) createPlayerButton.disabled = false;
+    }else{
+        createPlayerButton.disabled = true;
+        showElement(levelWarning);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+const failedAlert = document.querySelector('#failed-alert');
 
 const nameField = document.querySelector('#nam');
 const levelField = document.querySelector('#lev');
@@ -20,39 +127,7 @@ const levelOrder = document.querySelector('#levelOrder');
 const cityOrder = document.querySelector('#cityOrder');
 
 
-const renderData = ()=>{
-    
-    if(!state.render){
-        dataDiv.innerHTML = "Could not load data from server. Schema may have not matched."
-    }else{
-   
-    const p = [...state.players];
 
-    switch(state.selectedOrder) {
-        case order.ALPHABETICAL:
-            p.sort((p1, p2)=> (p1.name > p2.name) - (p1.name < p2.name));
-            break;
-        case order.LEVEL:
-            p.sort((p1, p2)=> p2.level - p1.level);
-            break;
-        case order.CITY:
-            p.sort((p1, p2)=> (p1.city > p2.city) - (p1.city < p2.city));
-            break;
-    }
-
-    dataDiv.innerHTML += p.map(({id, name, level, vocation, city, sex}) =>`
-        <tr>
-            <td class="col">${id}</td>
-            <td>${name}</td>
-            <td>${level}</td>
-            <td>${vocation}</td>
-            <td>${city}</td>
-            <td>${sex}</td>
-            <td><button class="btn btn-primary" lg>Update</button><td>
-            <td"><button class="btn btn-danger lg">Delete</button></div>
-        </div>
-    `).reduce((acc,item)=>acc + item, '');
-    }  
 
     const populateCity = () =>{
          selectCities.innerHTML = state.cities.map(city=>`
@@ -114,8 +189,8 @@ const showAndHide = el =>{
     }, 10000);
 }
 const showSuccessAlert = msg =>{
-    added.innerHTML = msg;
-    showAndHide(added);
+    sucessAlert.innerHTML = msg;
+    showAndHide(sucessAlert);
 }
 
 const showErrorAlert = msg =>{

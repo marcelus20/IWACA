@@ -54,7 +54,7 @@ class Controller {
             .then(text=>{
                 if(text === 'true'){
                     showSuccessAlert("Player added successfully. Please, scroll table to see the record in the last row");
-                    this.getPlayers(()=>callback());
+                    this.getPlayers((callback));
                 }else{
                     showErrorAlert("Schema does not match or something else went wrong");
                 }      

@@ -4,45 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" src="css/index.js">
 
 
     <title>Felipe Mantovani 2017192</title>
 </head>
     <body>
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                <a class="navbar-brand" href="#">MMO-RPG players management</a>
+                    <a class="navbar-brand" href="#">IWACA - Felipe Mantovani 2017192</a>
                 </div>
-                <ul class="nav navbar-nav">
-                Felipe Mantovani 2017192
-                </ul>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#" onclick="document.getElementById('id01').style.display='block'"class="w3-button">Create Player</a></li>
+                    </ul>
             </div>
         </nav>
-    <div class="container">
-    <h2>Players List</h2>
-    <p>List of players signed up for the MMO-RPG game Sally Forth</p>            
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>vocation</th>
-            <th>level</th>
-            <th>city</th>
-            <th>sex</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody id="fetch-data">
-        
-        </tbody>
-    </table> 
+        <div class="alert alert-success hide" role="alert" id="sucess-alert" >
+            
+        </div>
+        <div class="alert alert-danger hide" role="alert" id="failed-alert">
+            
+        </div>
+        <div class="container">
+        <h2>Players List</h2>
+        <p>List of players signed up for the MMO-RPG game Sally Forth</p>            
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>vocation</th>
+                <th>level</th>
+                <th>city</th>
+                <th>sex</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody id="fetch-data">
+            
+            </tbody>
+        </table> 
 
-    <script src="js/models/appState.js"></script>
-    <script src="js/controller/Controller.js"></script>   
-    <script src="js/views/scripts.js"></script>   
+
+        <!-- The Modal -->
+        <div id="id01" class="w3-modal">
+        <div class="w3-modal-content">
+            <div class="w3-container">
+            <span onclick="document.getElementById('id01').style.display='none'"
+            class="w3-button w3-display-topright">&times;</span>
+            <h2 class="display-2">Create a Player</h2>
+            <form id="form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name-input">
+                </div>
+                <div class="alert alert-warning" role="alert" id="name-warning">
+                    Name should have at least size of 3 characters
+                </div>
+                <div class="form-group">
+                    <label for="name">level</label>
+                    <input type="number" class="form-control" id="level-input">
+                </div>
+                <div class="alert alert-warning" role="alert" id="level-warning">
+                    Level should be greater than 0 but smaller than 1000
+                </div>
+                <div class="form-group">
+                    <label for="name">vocation</label>
+                    <select class="form-control" id="vocation-select"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">city</label>
+                    <select class="form-control" id="city-select"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">sex</label><br>
+                    <label for=""><input type="radio" name="optradio" value="F" checked id="radio-f"> F</label>
+                    <label for=""><input type="radio" name="optradio" value="M" id="radio-m"> M</label><br>
+                </div>
+                
+                
+
+                <input type="submit" class="btn btn-primary" id="create-player-button" disabled value="Create Player"/>
+                </form>
+            </div>
+        </div>
+        </div>
+
+        <script src="js/models/Form.js"></script>
+        <script src="js/models/appState.js"></script>
+        <script src="js/controller/Controller.js"></script>   
+        <script src="js/views/scripts.js"></script>   
     </body>
 </html>
