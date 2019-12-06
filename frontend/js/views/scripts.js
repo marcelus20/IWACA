@@ -2,7 +2,7 @@ const controller = Controller.init();
 
 
 const added = document.querySelector('#added');
-const dataDiv = document.querySelector('#data');
+const dataDiv = document.querySelector('#fetch-data');
 const subButton = document.querySelector('#sub');
 const delButton = document.querySelector('#idDel');
 const selectCities = document.querySelector("#cit");
@@ -25,32 +25,7 @@ const renderData = ()=>{
     if(!state.render){
         dataDiv.innerHTML = "Could not load data from server. Schema may have not matched."
     }else{
-        const tableHeader = `
-    <div class="title">
-            <h2 class="display-2">Players List</h2>
-        </div>
-        <div class="row">
-            <div class="col">
-                <p>id</p>
-            </div>
-            <div class="col">
-                <p>Player Name</p>
-            </div>
-            <div class="col">
-                <p>Level</p>
-            </div>
-            <div class="col">
-                <p>vocation</p>
-            </div>
-            <div class="col">
-                <p>city</p>
-            </div>
-            <div class="col">
-                <p>sex</p>
-            </div>
-        </div>
-    
-    `;
+   
     const p = [...state.players];
 
     switch(state.selectedOrder) {
@@ -65,16 +40,16 @@ const renderData = ()=>{
             break;
     }
 
-    dataDiv.innerHTML =  tableHeader + p.map(({id, name, level, vocation, city, sex}) =>`
-        <div class="row">
-            <div class="col">${id}</div>
-            <div class="col">${name}</div>
-            <div class="col">${level}</div>
-            <div class="col">${vocation}</div>
-            <div class="col">${city}</div>
-            <div class="col">${sex}</div>
-            <div class="col"><button type="button" onclick="trigerModal('${id}')" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-info btn-lg" id="${id}">Update</button></div>
-            <div class="col"><button type="button" onclick="controller.deleteRecord('${id}', renderData)" data-toggle="modal"  class="btn btn-danger btn-info btn-lg">Delete</button></div>
+    dataDiv.innerHTML += p.map(({id, name, level, vocation, city, sex}) =>`
+        <tr>
+            <td class="col">${id}</td>
+            <td>${name}</td>
+            <td>${level}</td>
+            <td>${vocation}</td>
+            <td>${city}</td>
+            <td>${sex}</td>
+            <td><button class="btn btn-primary" lg>Update</button><td>
+            <td"><button class="btn btn-danger lg">Delete</button></div>
         </div>
     `).reduce((acc,item)=>acc + item, '');
     }  
@@ -98,7 +73,7 @@ const renderData = ()=>{
 
 
 
-
+/*
 alphaOrder.addEventListener('click', ()=>{
     if(state.selectedOrder != order.ALPHABETICAL){
         state.selectedOrder = order.ALPHABETICAL;
@@ -122,7 +97,7 @@ cityOrder.addEventListener('click', ()=>{
     }
 });
 
-
+*/
 
 const showElement = (el)=>{
     el.classList.remove('hide');
@@ -149,7 +124,7 @@ const showErrorAlert = msg =>{
 }
 
                     
-                    
+    /*                
 subButton.addEventListener('click', ()=>{
     const form = new Form(
         document.querySelector('#nam').value.trim(),
@@ -162,8 +137,9 @@ subButton.addEventListener('click', ()=>{
         controller.createPlayers(form, ()=>renderData());
 });
 
+*/
 
-
+/*
 const checkEnablingButton = () => {
     buttonToEnable = subButton;
     const form = new Form(
@@ -193,7 +169,7 @@ vocationField.addEventListener('change', checkEnablingButton);
 cityfield.addEventListener('change', checkEnablingButton);
 sextField.addEventListener('change', checkEnablingButton);
 
-
+*/
 
 
 controller.getPlayers(renderData);
