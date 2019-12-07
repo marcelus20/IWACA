@@ -3,9 +3,20 @@ const config = require('../my-lib/config');
 const Player = require('../models/pojos').Player;
 const DataStatus = require('../models/pojos').DataStatus;
 
+
+/**
+ * 
+ * Handlers are triggered whenever a routing path is pinged. 
+ * 
+ * 
+ */
+
 handlers = {};
 
 
+/**
+ * When path is /, simply load the players and the HTML file
+ */
 handlers.main = (request, response) => {
     const header = {
             'Content-Type': 'text/html'
@@ -18,6 +29,9 @@ handlers.main = (request, response) => {
     response.end(doc);
 }
 
+/**
+ * When path is /players, return to client the array of players.
+ */
 handlers.players = (request, response) => {
     const header = {
             'Content-Type': 'application/json'
@@ -32,6 +46,14 @@ handlers.players = (request, response) => {
     response.end(result);
 }
 
+
+/**
+ * When the route is /player by POST, store the new Player object to DB.
+ * 
+ * Returns true if sucessfull or respond with false if something went wrong.
+ * 
+ * Fields required: name, level, vocation, city and sex
+ */
 
 handlers.createPlayer = (request, response) => {
     const {name, level, vocation, city, sex} = request.body;
@@ -50,6 +72,11 @@ handlers.createPlayer = (request, response) => {
     }
 }
 
+
+/**
+ * When path is /player by PUT, trigger update function and saves to DB
+ * Fields required: name, level, vocation, city and sex
+ */
 handlers.update = (request, response) => {
     // console.log(request.body);
     const {id, name, level, vocation, city, sex} = request.body;
@@ -75,7 +102,10 @@ handlers.update = (request, response) => {
     
 }
 
-
+/**
+ * WHen router is /player by DELETE, delete the record from JSON file.
+ * Required: the id passed by query string. "?id=:id"
+ */
 handlers.delete = (request, response) => {
     const idDelete = request.query.id;
     const db = JSON.parse(helpers.readFile(config.playersLocation));
@@ -90,6 +120,10 @@ handlers.delete = (request, response) => {
     }
 }
 
+/**
+ * Returns an array of cities to the server
+ */
+
 handlers.cities = (request, response) =>{
       const header = {
             'Content-Type': 'application/json'
@@ -100,6 +134,9 @@ handlers.cities = (request, response) =>{
     response.end(JSON.stringify(cities));
 }
 
+/**
+ * Returns the array of vocations to the server 
+ */
 handlers.vocations = (request, response) =>{
       const header = {
             'Content-Type': 'application/json'

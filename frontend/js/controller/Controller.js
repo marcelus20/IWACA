@@ -1,18 +1,29 @@
 
-
+/**
+ * This class is for the front end handles the AJAX calls by using the fetch API. 
+ * 
+ * I made it singleton. 
+ */
 class Controller {
 
-    static controller;
+    static controller;//the singleton instance
 
     constructor(){
     }
 
+    /**
+     * Initializing singleton
+     */
     static init() {
         if (this.controller == null) this.controller = new Controller();
         else return this.controller;
         return this.controller;
     }
 
+    /**
+     * Sends requests to /players
+     * @param {} callback 
+     */
     getPlayers (callback){
         fetch('/players')
         .then(response=>response.text())
@@ -24,6 +35,10 @@ class Controller {
         });
     }
 
+    /**
+     * Sends requests to /cities
+     * @param {} callback 
+     */
     getCities(callback){
         fetch('/cities')
         .then(response=> response.text())
@@ -33,6 +48,10 @@ class Controller {
         });
     }
 
+    /**
+     * Sends requests to /vocations
+     * @param {*} callback 
+     */
     getVocations(callback){
         
         fetch('/vocations')
@@ -43,6 +62,12 @@ class Controller {
         });
     }
 
+
+    /**
+     * Sends requests to /player by POST
+     * @param {*} form 
+     * @param {*} callback 
+     */
     createPlayer(form, callback){
         fetch('/player', {
             method: "POST",
@@ -61,6 +86,11 @@ class Controller {
             });
     }
 
+    /**
+     * Sends requests to /player by DELETE
+     * @param {} id 
+     * @param {*} callback 
+     */
     deletePlayer(id, callback){
         const id_ = id.trim();
         fetch(`/player?id=${id_}`, {
@@ -76,7 +106,11 @@ class Controller {
         });
     }
 
-
+    /**
+     * Sends requests to /player by PUT
+     * @param {*} player 
+     * @param {*} callback 
+     */
     updatePlayer(player, callback){
         fetch('/player',{
             headers:{

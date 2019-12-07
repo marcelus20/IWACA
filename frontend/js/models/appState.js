@@ -1,3 +1,9 @@
+/**
+ * This is the front end state. When info comes from the server, 
+ * the state object should be populated with the players, city, vocations.
+ * This way, data can be rerendered or sorted easily just by changing the state.
+ */
+
 const order = {
     ALPHABETICAL: "ALPHABETICAL",
     LEVEL: "LEVEL",

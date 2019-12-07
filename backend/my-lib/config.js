@@ -1,3 +1,7 @@
+/**
+ * This config object will store info about the location of files that are relevant to read and manipulate.
+ */
+
 const Env = require('../models/Env');
 
 const config = {

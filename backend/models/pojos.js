@@ -1,3 +1,12 @@
+/**
+ * 
+ * This is where classes that store data will be ancapsulated.
+ * POJO has the Players class and DataStatus class. 
+ * 
+ * Player is to create instances of it before storing to DB, this way, it is garanteed that the order of
+ * attributes follows the schema
+ */
+
 
 const pojo = {};
 

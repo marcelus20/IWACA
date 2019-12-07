@@ -3,23 +3,39 @@ const fs = require('fs');
 const config = require('./config')
 
 
+/**
+ * Helpers are used to aid handlers on the request with business logic
+ */
+
 helpers = {};
 
 
+/**
+ * Returns true if matches schema or false otherwise
+ */
 helpers.validateSchema = (instance, schema) => {
     schema = typeof schema == 'string'? JSON.parse(schema): schema;
     return validate(instance, schema).valid;
 }
 
-
+/**
+ * Returns a string of a file content by passing file location as parameter
+ */
 helpers.readFile = (path) => fs.readFileSync(path, 'utf-8');
 
 
+/**
+ * Writes content to file and triggers a callback function.
+ * Usually when using POST or PUT that demands file modification.
+ */
 helpers.writeFile = (dir, content, callback) => {
    fs.writeFileSync(dir, content, {flag: 'w'});
    callback();
 };
 
+/**
+ * It deletes the player that has the id passed. 
+ */
 helpers.delete = (id, arr) =>{
     const index = helpers.search(id, arr);
     if(index < 0) return false;
@@ -27,6 +43,9 @@ helpers.delete = (id, arr) =>{
     return [...arr];
 }
 
+/**
+ * Searches player by the id given within the array given.
+ */
 helpers.search = (id, arr) => {
     let index = 0;
     for(player of arr){
@@ -37,7 +56,9 @@ helpers.search = (id, arr) => {
 }
 
 
-
+/**
+ * Generate a bunch of random characters. This is exclusevily used for the ID generation of 20. 
+ */
 helpers.genRandomChars = (len) =>{
     const chars = [
     'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u',

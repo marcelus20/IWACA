@@ -1,4 +1,8 @@
-
+/**
+ * The string holder for the form fields values. 
+ * 
+ * Method is valid returns true if the values meet the minimal requirements.
+ */
 class Form{
     constructor(name, level, vocation, city, sex){
         this.name = name;
@@ -17,5 +21,8 @@ class Form{
     }
 
 }
-
+/**
+ * Destructuring function. 
+ * @param {*} param0 
+ */
 const form = ({name, level, vocation, city, sex}) => new Form(name, level, vocation, city, sex);
