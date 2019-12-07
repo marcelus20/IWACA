@@ -56,6 +56,7 @@ handlers.update = (request, response) => {
     const db = JSON.parse(helpers.readFile(config.playersLocation));
     const players = db.players;
     const player = new Player(id, name, Number.parseInt(level), vocation, city, sex);
+
     const schema = helpers.readFile(config.schemaLocation);
 
     // console.log(db);
@@ -65,7 +66,7 @@ handlers.update = (request, response) => {
         players[index] = {...player};
         db.players = [...players]
         helpers.writeFile(config.playersLocation, JSON.stringify(db, null, 2), ()=>{
-            response.end(JSON.stringify(db, null, 2));
+            response.end('true');
         });
         
     }else{

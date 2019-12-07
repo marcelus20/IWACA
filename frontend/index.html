@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" src="css/index.js">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    
 
 
     <title>Felipe Mantovani 2017192</title>
@@ -19,7 +20,7 @@
                 </div>
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#" onclick="document.getElementById('id01').style.display='block'"class="w3-button">Create Player</a></li>
+                        <li><a href="#" onclick="openModal()"class="w3-button">Create Player</a></li>
                     </ul>
             </div>
         </nav>
@@ -31,7 +32,21 @@
         </div>
         <div class="container">
         <h2>Players List</h2>
-        <p>List of players signed up for the MMO-RPG game Sally Forth</p>            
+        <p>List of players signed up for the MMO-RPG game Sally Forth</p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <label for=""><input type="radio" name="optradio"  checked id="by-name"> Sort By Name</label>
+                    
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <label for=""><input type="radio" name="optradio" id="by-level">  Sort By Level</label><br>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <label for=""><input type="radio" name="optradio" id="by-city"> Sort By City</label><br>
+                </div>
+            </div>
+        </div>            
         <table class="table table-hover">
             <thead>
             <tr>
@@ -55,10 +70,14 @@
         <div id="id01" class="w3-modal">
         <div class="w3-modal-content">
             <div class="w3-container">
-            <span onclick="document.getElementById('id01').style.display='none'"
+            <span onclick="closeModal()"
             class="w3-button w3-display-topright">&times;</span>
-            <h2 class="display-2">Create a Player</h2>
+            <h2 class="display-2" id="form-title">Player</h2>
             <form id="form">
+                 <div class="form-group hide">
+                    <label for="name">ID</label>
+                    <input type="text" class="form-control" id="id-input" disabled>
+                </div>
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name-input">
@@ -84,19 +103,23 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="name">sex</label><br>
-                    <label for=""><input type="radio" name="optradio" value="F" checked id="radio-f"> F</label>
-                    <label for=""><input type="radio" name="optradio" value="M" id="radio-m"> M</label><br>
+                    <label for="name">sex</label>
+                    <select class="form-control" id="sex-select">
+                        <option value="F">F</option>
+                        <option value="M">M</option>
+                    </select>
                 </div>
                 
                 
 
-                <input type="submit" class="btn btn-primary" id="create-player-button" disabled value="Create Player"/>
+                <input type="submit" class="btn btn-primary" id="create-player-button" disabled value="create"/>
+                <input type="submit" class="btn btn-primary" id="update-player-button" disabled value="update"/>
                 </form>
             </div>
         </div>
         </div>
 
+        <script src="js/models/Player.js"></script>
         <script src="js/models/Form.js"></script>
         <script src="js/models/appState.js"></script>
         <script src="js/controller/Controller.js"></script>   

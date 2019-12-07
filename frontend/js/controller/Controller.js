@@ -43,7 +43,7 @@ class Controller {
         });
     }
 
-    createPlayers(form, callback){
+    createPlayer(form, callback){
         fetch('/player', {
             method: "POST",
             headers: {
@@ -61,7 +61,7 @@ class Controller {
             });
     }
 
-    deleteRecord(id, callback){
+    deletePlayer(id, callback){
         const id_ = id.trim();
         fetch(`/player?id=${id_}`, {
             method: "DELETE",
@@ -70,14 +70,14 @@ class Controller {
             if(text === 'false'){
                 showErrorAlert('Id does not exist');
             }else{
-                this.getPlayers(()=>callback());
+                this.getPlayers(callback);
                 showSuccessAlert('Player successfully deleted!');
             }       
         });
     }
 
 
-    update_player(player, callback){
+    updatePlayer(player, callback){
         fetch('/player',{
             headers:{
                 "Content-Type": "application/json; charset=utf-8"
@@ -86,7 +86,7 @@ class Controller {
             body:JSON.stringify(player),
         }).then(res=>res.text())
                 .then(text=>{
-                    if('true'){
+                    if(text == 'true'){
                         showSuccessAlert("Player updated sucesssfuly");
                         this.getPlayers(()=>callback());
                     }else{

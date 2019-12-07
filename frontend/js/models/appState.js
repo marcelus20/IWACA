@@ -4,11 +4,17 @@ const order = {
     CITY: "CITY"
 }
 
+const actions = {
+    UPDATING: 'UPDATING',
+    INSERTING:'INSERTING'
+}
+
 
 const state = {
     selectedOrder: order.ALPHABETICAL,
     render:false,
     players:[],
     cities:[],
-    vocations:[]
+    vocations:[],
+    action: actions.INSERTING
 };
