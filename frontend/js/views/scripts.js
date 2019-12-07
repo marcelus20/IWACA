@@ -20,7 +20,16 @@ const alphaOrder = document.querySelector('#by-name');
 const levelOrder = document.querySelector('#by-level');
 const cityOrder = document.querySelector('#by-city');
 
-
+const images = {
+    "knight":"img/Fire_Sword.gif",
+    "paladin":"img/Guardcatcher.gif",
+    "sorcerer":"img/Wand_of_Decay.gif",
+    "druid":"img/Moonlight_Rod.gif",
+    "elite knight":"img/Golden_Helmet.gif",
+    "royal paladin":"img/Crossbow_of_Carving_(Overcharged).gif",
+    "master sorcerer":"img/Sudden_Death_Rune.gif",
+    "elder druid": "img/Blue_Robe.gif"
+}
 
 const openModal = () =>{
     if(state.action == actions.INSERTING){
@@ -31,8 +40,8 @@ const openModal = () =>{
         hideElement(createPlayerButton);
     }
     document.getElementById('id01').style.display='block';
-    validateName();
-    validateLevel();
+    validateForm();
+
 }
 
 const closeModal = () => {
@@ -42,7 +51,7 @@ const closeModal = () => {
 }
 
 
-const validateName = () =>{
+const validateForm = () =>{
     if(nameInput.value.length >= 3){
         hideElement(nameWarning);
         if(Number.parseInt(levelInput.value) > 0 && Number.parseInt(levelInput.value) <= 1000){
@@ -59,9 +68,7 @@ const validateName = () =>{
         try{updatePlayerButton.disabled = true;}catch(e){}
         showElement(nameWarning);
     }
-}
 
-const validateLevel = ()=>{
     if(Number.parseInt(levelInput.value) > 0 && Number.parseInt(levelInput.value) <= 1000){
         hideElement(levelWarning);
         if (nameInput.value.length >= 3){
@@ -75,6 +82,7 @@ const validateLevel = ()=>{
         showElement(levelWarning);
     }
 }
+
 
 
 const fillFormWithPlayerDetails = id_ =>{
@@ -118,6 +126,7 @@ const renderData = ()=>{
                 <td>${name}</td>
                 <td>${level}</td>
                 <td>${vocation}</td>
+                <td><img src="${images[vocation]}"/></td>
                 <td>${city}</td>
                 <td>${sex}</td>
                 <td><button class="btn btn-primary" onclick="fillFormWithPlayerDetails('${id}')" lg>Update</button><td>
@@ -170,9 +179,11 @@ createPlayerButton.addEventListener('click', e=>{
 });
 
 
-nameInput.addEventListener('keyup', validateName);
-
-levelInput.addEventListener('keyup', validateLevel);
+nameInput.addEventListener('keyup', validateForm);
+levelInput.addEventListener('keyup', validateForm);
+selectSex.addEventListener('click', validateForm);
+selectCities.addEventListener('click', validateForm);
+selectVoc.addEventListener('click', validateForm);
 
 const populateCity = () =>{
         selectCities.innerHTML = state.cities.map(city=>`

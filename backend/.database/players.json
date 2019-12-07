@@ -4,7 +4,7 @@
       "id": "oBk1nhAkEtRxi2BGVMPd",
       "name": "Zenkindeff",
       "level": 55,
-      "vocation": "knight",
+      "vocation": "elite knight",
       "city": "Ankrahmun",
       "sex": "M"
     },
@@ -26,11 +26,51 @@
     },
     {
       "id": "rdN1Uzicj3CARGc0HvbZ",
-      "name": "Dynam",
-      "level": 45,
+      "name": "Notorius Greger",
+      "level": 35,
       "vocation": "knight",
-      "city": "Ankrahmun",
+      "city": "Thais",
+      "sex": "M"
+    },
+    {
+      "id": "6EP2TDn8jr4rTliLQCkd",
+      "name": "Bogah Guriater",
+      "level": 666,
+      "vocation": "master sorcerer",
+      "city": "Liberty Bay",
+      "sex": "M"
+    },
+    {
+      "id": "VB1qP4yd9gd9prEzyEbk",
+      "name": "Monstruous Magnificus",
+      "level": 543,
+      "vocation": "royal paladin",
+      "city": "Kazordoon",
       "sex": "F"
+    },
+    {
+      "id": "YJLAmGNOR6wIo0iJ92Od",
+      "name": "Nevada Energys",
+      "level": 543,
+      "vocation": "sorcerer",
+      "city": "Darashia",
+      "sex": "F"
+    },
+    {
+      "id": "PNP5zfMPC0MTmdSwoMzb",
+      "name": "Killindra Elliorath",
+      "level": 442,
+      "vocation": "druid",
+      "city": "Darashia",
+      "sex": "F"
+    },
+    {
+      "id": "4t2uTAtWUe021yUzSbya",
+      "name": "Peris Harisson",
+      "level": 43,
+      "vocation": "elite knight",
+      "city": "Kazordoon",
+      "sex": "M"
     }
   ],
   "cities": [
