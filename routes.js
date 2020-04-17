@@ -20,10 +20,10 @@ router.post('/player', playerController.createPlayer);
 router.post('/players', playerController.createPlayer);
 
 //updating
-router.put('/player', playerController.updatePlayer);
+router.put('/player/:id', playerController.updatePlayer);
 
 //router delete
-router.delete('/player', playerController.deletePlayer);
+router.delete('/player/:id', playerController.deletePlayer);
 
 
 module.exports = router;
