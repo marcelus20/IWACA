@@ -11,11 +11,11 @@ const bodyParser = require("body-parser");
 const mongoose   = require('mongoose');
 const app        = express();
 const port       = 3000;
-// const userCtrl  = require('./user-controller');
+const routes     = require('./routes');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-// app.use(require('./routes'));
+app.use(routes);
 
 app.listen(port, function(err){
     console.log("Listening on Port: " + port);
@@ -36,25 +36,7 @@ app.listen(port, function(err){
 // const server = http.createServer(router);
 
 
-// //routers get
-// router.use(express.static(path.join(__dirname, 'frontend')));
-// router.use(express.json());
-// router.use(expAutoSan.allUnsafe);
 
-// router.get('/', handlers.main);
-// router.get('/players', handlers.players);
-// router.get('/cities', handlers.cities);
-// router.get('/vocations', handlers.vocations);
-
-
-// //router post
-// router.post('/player', handlers.createPlayer);
-
-// //updating
-// router.put('/player', handlers.update);
-
-// //router delete
-// router.delete('/player', handlers.delete);
 
 
 // server.listen(config.env.port, process.env.IP, ()=>{
