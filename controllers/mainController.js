@@ -1,6 +1,7 @@
 const Player = require('../models/player.js');
 const City = require('../models/city.js');
 const Vocation = require('../models/vocation.js');
+const fs = require('fs');
 
 
 
@@ -27,4 +28,8 @@ exports.selectEverything = (req, res) => {
         }); 
     // res.json(cities);
     }); 
+};
+
+exports.notFound = (req, res) => {
+    res.status(404).json({"message":"not found"});
 };

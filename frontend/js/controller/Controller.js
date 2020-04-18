@@ -25,13 +25,10 @@ class Controller {
      * @param {} callback 
      */
     getPlayers (callback){
-        fetch('/players')
-        .then(response=>response.text())
-        .then(text => {      
-            const {data, render} = JSON.parse(text);
-            state.render = render
-            state.players = [...data];
-            callback();
+        fetch('/api/v2/players')
+        .then(response=>response.json())
+        .then(data => {   
+            callback(data);
         });
     }
 
@@ -40,7 +37,7 @@ class Controller {
      * @param {} callback 
      */
     getCities(callback){
-        fetch('/cities')
+        fetch('/api/v2/cities')
         .then(response=> response.text())
         .then(json=>{
             state.cities = JSON.parse(json);
@@ -54,7 +51,7 @@ class Controller {
      */
     getVocations(callback){
         
-        fetch('/vocations')
+        fetch('/api/v2/vocations')
             .then(response=> response.text())
             .then(json=>{
                 state.vocations = JSON.parse(json);
@@ -69,7 +66,7 @@ class Controller {
      * @param {*} callback 
      */
     createPlayer(form, callback){
-        fetch('/player', {
+        fetch('/api/v2/player', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
@@ -93,7 +90,7 @@ class Controller {
      */
     deletePlayer(id, callback){
         const id_ = id.trim();
-        fetch(`/player?id=${id_}`, {
+        fetch(`/api/v2/player/${id_}`, {
             method: "DELETE",
         }).then(res=>res.text())
         .then(text=>{
@@ -112,7 +109,7 @@ class Controller {
      * @param {*} callback 
      */
     updatePlayer(player, callback){
-        fetch('/player',{
+        fetch('/api/v2/player',{
             headers:{
                 "Content-Type": "application/json; charset=utf-8"
             },
