@@ -1,8 +1,8 @@
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 
-var playerSchema = new mongoose.Schema({ 
+const playerSchema = new mongoose.Schema({ 
     name: { type: String, unique: true, lowercase: true},
     level: Number,
     vocation: {
