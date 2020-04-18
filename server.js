@@ -20,30 +20,6 @@ app.use(routes);
 app.listen(port, function(err){
     console.log("Listening on Port: " + port);
 });
-    
-
-
-// //My own libraries
-// const config = require('./backend/my-lib/config');
-// const helpers = require('./backend/my-lib/helpers');
-// const handlers = require('./backend/my-lib/handlers');
-
-
-// const v = new Validator();
-
-
-// const router = express();
-// const server = http.createServer(router);
-
-
-
-
-
-// server.listen(config.env.port, process.env.IP, ()=>{
-//     console.log(process.env.MONGODB_URL);
-//     console.log(`Running on ${config.env.port} in the ${config.env.environment} environment`);
-// })
-
 
 mongoose.connect(process.env.MONGODB_URL);
 mongoose.connection.on('error', (err) => { 
