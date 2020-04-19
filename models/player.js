@@ -6,12 +6,12 @@ const playerSchema = new mongoose.Schema({
     name: { type: String, unique: true, lowercase: true},
     level: Number,
     vocation: {
-        type: String,
-        enum: ["knight","paladin","sorcerer","druid","elite knight","royal paladin","master sorcerer","elder druid"]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Vocation'
     },
     city: {
-      "type": "string",
-      "enum": ["Ankrahmun","Darashia","Carlin","Ab'Dendriel","Thais","Edron","Kazordoon","Venore","Yalahar","Port Hope","Liberty Bay"]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'City'
     },
     sex: {
         type: String,

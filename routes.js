@@ -34,6 +34,7 @@ router.get('/api/v2/player/:id', playerController.getPlayer);
 router.get('/api/v2/cities', cityController.getCities);
 router.get('/api/v2/city/:id', cityController.getCity);
 router.get('/api/v2/vocations', vocationController.getVocations);
+router.get('/api/v2/vocation/:id', vocationController.getVocation);
 router.get('/api/v2/images', imageCtrl.getImages);
 router.get('/api/v2/image/:id', imageCtrl.getImage);
 router.get('/api/v2/vocation', vocationController.getVocation);
@@ -42,14 +43,14 @@ router.post('/api/v2/images', upload.single('image'), imageCtrl.uploadImage);
 router.post('/api/v2/city', cityController.createCity);
 router.post('/api/v2/vocation', vocationController.createVocation);
 //updating
-router.put('/player/:id', playerController.updatePlayer);
-router.put('/city/:id', cityController.updateCity);
-router.put('/vocation/:id', vocationController.updateVocation);
+router.put('/api/v2/player/:id', playerController.updatePlayer);
+router.put('/api/v2/city/:id', cityController.updateCity);
+router.put('/api/v2/vocation/:id', vocationController.updateVocation);
 //router delete
-router.delete('/player/:id', playerController.deletePlayer);
-router.delete('/city/:id', cityController.deleteCity);
-router.delete('/vocation/:id', vocationController.updateVocation);
-router.delete('/api/v2/images/:id', imageCtrl.deleteImage);
+router.delete('/api/v2/player/:id', playerController.deletePlayer);
+router.delete('/api/v2/city/:id', cityController.deleteCity);
+router.delete('/api/v2/vocation/:id', vocationController.updateVocation);
+router.delete('/api/v2/api/v2/images/:id', imageCtrl.deleteImage);
 
 
 

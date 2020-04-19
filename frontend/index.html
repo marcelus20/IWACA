@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" type="text/css" src="css/index.js">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/spinner.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="jquery-3.4.1.min.js"></script>
 
@@ -14,6 +17,89 @@
     <title>Felipe Mantovani 2017192</title>
 </head>
     <body>
+        <div class="formBackdrop hide" id="formBackdrop">
+            <div class="modalForm">
+                <form id="register-player" class="form-horizontal register-player">
+                        <span class="material-icons pointer left" id="closebackdrop">
+                            close
+                        </span>
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Register a player</legend>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                        <label class="col-md-4 control-label" for="name">name</label>  
+                        <div class="col-md-4">
+                        <input id="name" name="Name" type="text" placeholder="Name" class="form-control input-md" required="">
+                        <span class="help-block">Insert the player name here</span>  
+                        </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                        <label class="col-md-4 control-label" for="level-input">Level</label>  
+                        <div class="col-md-4">
+                        <input id="level-input" name="level-input" type="number" placeholder="level" class="form-control input-md" required="">
+                        <span class="help-block">Insert the player level</span>  
+                        </div>
+                        </div>
+
+                        <!-- Multiple Radios -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Sex">Sex</label>
+                            <div class="col-md-4">
+                            <div class="radio">
+                                <label for="Sex-0">
+                                <input type="radio" name="Sex" id="Sex-0" value="F" checked="checked">
+                                F
+                                </label>
+                                </div>
+                            <div class="radio">
+                                <label for="Sex-1">
+                                <input type="radio" name="Sex" id="Sex-1" value="M">
+                                M
+                                </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                        <label class="col-md-4 control-label" for="vocations-select">vocations</label>
+                        <div class="col-md-4">
+                            <select id="vocations-select" name="vocations-select" class="form-control">
+                            </select>
+                        </div>
+                        </div>
+
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                        <label class="col-md-4 control-label" for="cities-select">Cities</label>
+                        <div class="col-md-4">
+                            <select id="cities-select" name="cities-select" class="form-control">
+                            </select>
+                        </div>
+                        </div>
+
+                    </fieldset>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="singlebutton">Insert Player</label>
+                        <div class="col-md-4">
+                            <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                    
+                </form>
+
+            </div>
+        </div>
+
+        <div id="spinner" class="spinnerArea hide">
+                    <div class="lds-hourglass spinner"></div>
+            </div>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -21,7 +107,7 @@
                 </div>
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#" onclick="openModal()"class="w3-button">Create Player</a></li>
+                        <li><a href="#" id="createPlayerButton">Create Player</a></li>
                     </ul>
             </div>
         </nav>
@@ -48,82 +134,38 @@
                 </div>
             </div>
         </div>            
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>level</th>
-                <th>city/th>
-                <th></th>
-                <th>vocation</th>
-                <th>sex</th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody id="fetch-data">
+        
+        
+        
+        <div class="behindSpinner">
             
-            </tbody>
-        </table> 
-
-
-        <!-- The Modal -->
-        <div id="id01" class="w3-modal">
-        <div class="w3-modal-content">
-            <div class="w3-container">
-            <span onclick="closeModal()"
-            class="w3-button w3-display-topright">&times;</span>
-            <h2 class="display-2" id="form-title">Player</h2>
-            <form id="form">
-                 <div class="form-group hide">
-                    <label for="name">ID</label>
-                    <input type="text" class="form-control" id="id-input" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name-input">
-                </div>
-                <div class="alert alert-warning" role="alert" id="name-warning">
-                    Name should have at least size of 3 characters
-                </div>
-                <div class="form-group">
-                    <label for="name">level</label>
-                    <input type="number" class="form-control" id="level-input">
-                </div>
-                <div class="alert alert-warning" role="alert" id="level-warning">
-                    Level should be greater than 0 but smaller than 1000
-                </div>
-                <div class="form-group">
-                    <label for="name">vocation</label>
-                    <select class="form-control" id="vocation-select"></select>
-                </div>
-
-                <div class="form-group">
-                    <label for="name">city</label>
-                    <select class="form-control" id="city-select"></select>
-                </div>
-
-                <div class="form-group">
-                    <label for="name">sex</label>
-                    <select class="form-control" id="sex-select">
-                        <option value="F">F</option>
-                        <option value="M">M</option>
-                    </select>
-                </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>level</th>
+                        <th>city</th>
+                        <th>vocation</th>
+                        <th></th>
+                        <th>sex</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="fetch-data">
                 
-                
+                </tbody>
+            </table> 
+        </div>
+        
+        
 
-                <input type="submit" class="btn btn-primary" id="create-player-button" disabled value="create"/>
-                <input type="submit" class="btn btn-primary" id="update-player-button" disabled value="update"/>
-                </form>
-            </div>
-        </div>
-        </div>
+        
 
         <script src="js/models/Player.js"></script>
-        <script src="js/models/Form.js"></script>
-        <script src="js/models/appState.js"></script>
+        <!-- <script src="js/models/Form.js"></script>
+        <script src="js/models/appState.js"></script> -->
         <script src="js/controller/Controller.js"></script>   
         <script src="js/views/scripts.js"></script>   
     </body>

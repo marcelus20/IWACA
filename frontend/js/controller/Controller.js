@@ -25,10 +25,11 @@ class Controller {
      * @param {} callback 
      */
     getPlayers (callback){
-        fetch('/api/v2/players')
-        .then(response=>response.json())
-        .then(data => {   
-            callback(data);
+        $.ajax({
+            url: "/api/v2/players",
+            type: 'GET',
+            dataType: 'json', 
+            success: callback
         });
     }
 
@@ -37,11 +38,11 @@ class Controller {
      * @param {} callback 
      */
     getCities(callback){
-        fetch('/api/v2/cities')
-        .then(response=> response.text())
-        .then(json=>{
-            state.cities = JSON.parse(json);
-            callback();
+        $.ajax({
+            url: "/api/v2/cities",
+            type: 'GET',
+            dataType: 'json', 
+            success: callback
         });
     }
 
@@ -50,12 +51,11 @@ class Controller {
      * @param {*} callback 
      */
     getVocations(callback){
-        
-        fetch('/api/v2/vocations')
-            .then(response=> response.text())
-            .then(json=>{
-                state.vocations = JSON.parse(json);
-                callback();
+        $.ajax({
+            url: "/api/v2/vocations",
+            type: 'GET',
+            dataType: 'json', 
+            success: callback
         });
     }
 
@@ -65,22 +65,16 @@ class Controller {
      * @param {*} form 
      * @param {*} callback 
      */
-    createPlayer(form, callback){
-        fetch('/api/v2/player', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify(form)
-        }).then(res=>res.text())
-            .then(text=>{
-                if(text === 'true'){
-                    showSuccessAlert("Player added successfully. Please, scroll table to see the record in the last row");
-                    this.getPlayers((callback));
-                }else{
-                    showErrorAlert("Schema does not match or something else went wrong");
-                }      
-            });
+    createPlayer(player, callback){
+
+        $.ajax({
+            type: "POST",
+            url: `/api/v2/player`,
+            data: player,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: callback
+        });
     }
 
     /**
@@ -89,17 +83,12 @@ class Controller {
      * @param {*} callback 
      */
     deletePlayer(id, callback){
-        const id_ = id.trim();
-        fetch(`/api/v2/player/${id_}`, {
-            method: "DELETE",
-        }).then(res=>res.text())
-        .then(text=>{
-            if(text === 'false'){
-                showErrorAlert('Id does not exist');
-            }else{
-                this.getPlayers(callback);
-                showSuccessAlert('Player successfully deleted!');
-            }       
+        $.ajax({
+            type: "DELETE",
+            url: `/api/v2/player/${id}`,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: callback
         });
     }
 
@@ -109,21 +98,14 @@ class Controller {
      * @param {*} callback 
      */
     updatePlayer(player, callback){
-        fetch('/api/v2/player',{
-            headers:{
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            method:'PUT',
-            body:JSON.stringify(player),
-        }).then(res=>res.text())
-                .then(text=>{
-                    if(text == 'true'){
-                        showSuccessAlert("Player updated sucesssfuly");
-                        this.getPlayers(()=>callback());
-                    }else{
-                        showErrorAlert("Something went wrong. Deletion did not complete");
-                    }
-                });
+        $.ajax({
+            type: "PUT",
+            url: `/api/v2/player/${player.id}`,
+            data: player,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: callback
+        });
     }
 
 
