@@ -97,11 +97,11 @@ class Controller {
      * @param {*} player 
      * @param {*} callback 
      */
-    updatePlayer(player, callback){
+    updatePlayer(player, id, callback){
         $.ajax({
             type: "PUT",
-            url: `/api/v2/player/${player.id}`,
-            data: player,
+            url: `/api/v2/player/${id}`,
+            data: JSON.stringify(player),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: callback

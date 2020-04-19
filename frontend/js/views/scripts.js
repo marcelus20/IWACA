@@ -4,57 +4,52 @@
 
 $(document).ready(()=>{
 
-    const images = {
-        "knight":"/api/v2/image/5e9a66dfd62b4567d4dd66f9",
-        "paladin":"/api/v2/image/5e9a66f8d62b4567d4dd66fb",
-        "sorcerer":"/api/v2/image/5e9a6711d62b4567d4dd66fe",
-        "druid":"/api/v2/image/5e9a6701d62b4567d4dd66fc",
-        "elite knight":"/api/v2/image/5e9a66ead62b4567d4dd66fa",
-        "royal paladin":"/api/v2/image/5e9a66d1d62b4567d4dd66f8",
-        "master sorcerer":"/api/v2/image/5e9a6709d62b4567d4dd66fd",
-        "elder druid": "/api/v2/image/5e9a66bfd62b4567d4dd66f7"
+    const images             = {
+        "knight"         :"/api/v2/image/5e9a66dfd62b4567d4dd66f9",
+        "paladin"        :"/api/v2/image/5e9a66f8d62b4567d4dd66fb",
+        "sorcerer"       :"/api/v2/image/5e9a6711d62b4567d4dd66fe",
+        "druid"          :"/api/v2/image/5e9a6701d62b4567d4dd66fc",
+        "elite knight"   :"/api/v2/image/5e9a66ead62b4567d4dd66fa",
+        "royal paladin"  : "/api/v2/image/5e9a66d1d62b4567d4dd66f8",
+        "master sorcerer": "/api/v2/image/5e9a6709d62b4567d4dd66fd",
+        "elder druid"    : "/api/v2/image/5e9a66bfd62b4567d4dd66f7"
     }
-
-    const orders = {
+    const orders             = {
         NAME:"name",
         LEVEL:"level",
         CITY:"city"
     }
-    
-
-    const state = {
+    const state              = {
         order   : orders.NAME,
         players : [],
     }
-
-    const controller = Controller.init();
-    
-    const tableBody = $('#fetch-data');
-    const spinner = $('#spinner');
-    const failedAlert = $('#failed-alert');
-    const sucessAlert = $('#sucess-alert');
-    const sortByName = $('#by-name');
-    const sortByLevel = $('#by-level');
-    const sortByCity = $('#by-city');
-    const registerPlayer = $('#register-player');
-    const vocationsSelect = $('#vocations-select');
-    const citiesSelect = $('#cities-select');
-    const backdrop = $('#formBackdrop');
+    const controller         = Controller.init();
+    const tableBody          = $('#fetch-data');
+    const spinner            = $('#spinner');
+    const failedAlert        = $('#failed-alert');
+    const sucessAlert        = $('#sucess-alert');
+    const sortByName         = $('#by-name');
+    const sortByLevel        = $('#by-level');
+    const sortByCity         = $('#by-city');
+    const registerPlayer     = $('#register-player');
+    const vocationsSelect    = $('#vocations-select');
+    const citiesSelect       = $('#cities-select');
+    const backdrop           = $('#formBackdrop');
     const createPlayerButton = $('#createPlayerButton');
-    const closeBackDrop = $(`#closebackdrop`);
-    const nameInput = $('#name');
-    const levelInput = $('#level-input');
-    const sexF = $('#Sex-0');
-    const sexM = $('#Sex-1');
+    const closeBackDrop      = $(`#closebackdrop`);
+    const nameInput          = $('#name');
+    const levelInput         = $('#level-input');
+    const sexF               = $('#Sex-0');
+    const sexM               = $('#Sex-1');
+    const playerIdInput      = $('#playerIdInput');
 
     closeBackDrop.click(()=>{
         hide(backdrop);
     });
-
-
-    createPlayerButton.click(()=>show(backdrop));
-
-
+    createPlayerButton.click(()=>{
+        playerIdInput.val('');
+        show(backdrop)
+    });
     registerPlayer.submit(e=>{
         e.preventDefault();
         e.stopPropagation();
@@ -68,36 +63,37 @@ $(document).ready(()=>{
         
         delete player.id;
 
-        controller.createPlayer(JSON.stringify(player), player_=>{
-            console.log(player_);
-            main();
-            hide(spinner);
-        });
-
+        if(playerIdInput.val().length > 0){
+            //update
+            controller.updatePlayer(player, playerIdInput.val(), player_=>{
+                main();
+                hide(spinner);
+            });
+        }else{
+            //create
+            controller.createPlayer(JSON.stringify(player), player_=>{
+                main();
+                hide(spinner);
+            });
+        }
         hide(backdrop);
     });
-
-
     sortByName.on('click', ()=>{
         state.order = orders.NAME;
         render();
     })
-
     sortByLevel.on('click', ()=>{
         state.order = orders.LEVEL;
         render();
     });
-
     sortByCity.on('click', ()=>{
         state.order = orders.CITY;
         render();
     });
-
-    const clearTable = () => {
+    const clearTable         = () => {
         tableBody.html("");
     }
-    
-    const sortPlayers = (p1, p2) => {
+    const sortPlayers        = (p1, p2) => {
         switch (state.order){
             case orders.NAME:
                 //Ascending alphabetical order
@@ -125,22 +121,18 @@ $(document).ready(()=>{
         }
 
     }
-
     //shorten a string to a length of 10. It will be used to display the ID.
-    const shortenId = (id) => {
+    const shortenId          = (id) => {
         return id.substring(0,10) + "...";
     }
-
-    const hide = (jqueryObject) => {
+    const hide               = (jqueryObject) => {
         jqueryObject.addClass("hide");
     }
-
-    const show = (jqueryObject) => {
+    const show               = (jqueryObject) => {
         jqueryObject.removeClass("hide");
     }
-
     const render = () => {
-        const players = [...state.players].sort(sortPlayers);
+        const players = [...state.players];
         const vocations = [...state.vocations];
         const cities = [...state.cities];
 
@@ -201,11 +193,20 @@ $(document).ready(()=>{
                 show(spinner);
                 controller.deletePlayer(p._id,()=>{
                     controller.getPlayers(players=>{
-                        state.players = [...players];
-                        render();
+                        main();
                         hide(spinner);
                     });
                 })
+            });
+
+            editingIcon.click(()=>{
+                show(backdrop);
+                playerIdInput.val(p._id);
+                nameInput.val(p.name);
+                levelInput.val(p.level);
+                $("#register-player input[type='radio']:checked").val(p.sex);
+                vocationsSelect.val(p.vocation);
+                citiesSelect.val(p.city);
             });
 
             //assigning listener hover to row
@@ -222,29 +223,21 @@ $(document).ready(()=>{
             tableBody.append(tr);
         })
     }
-    
-    
-
-
     const main = () => {
         show(spinner);
         controller.getPlayers(players=>{
             state.players = [...players];
             controller.getCities(cities=>{
-                state.cities = cities;
+                state.cities = [...cities];
                 controller.getVocations(vocations=>{
-                    state.vocations = vocations;
+                    state.vocations = [...vocations];
                     render();
                     hide(spinner);
                 });
-            });
-            
+            });    
         });
     }
-
     main();
-
-
 });
 
 
