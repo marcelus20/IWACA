@@ -11,12 +11,58 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="jquery-3.4.1.min.js"></script>
 
 
     <title>Felipe Mantovani 2017192</title>
 </head>
     <body>
+        <div class="formBackdrop hide" id="formBackdrop2">
+            <div class="modalForm">
+                <form class="form-horizontal register-player" id="registeVocation-city">
+                <span class="material-icons pointer left" id="closebackdrop2">
+                                close
+                            </span>
+                    <fieldset>
+                        <!-- Form Name -->
+                        <legend>Insert a new City or Vocation Name</legend>
+
+                        <!-- Multiple Radios (inline) -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="vocation-cityRadios">Select one option</label>
+                            <div class="col-md-4"> 
+                                <label class="radio-inline" for="vocation-cityRadios-0">
+                                <input type="radio" name="vocation-cityRadios" id="vocation-cityRadios-0" value="vocation" checked="checked">
+                                vocation
+                                </label> 
+                                <label class="radio-inline" for="vocation-cityRadios-1">
+                                <input type="radio" name="vocation-cityRadios" id="vocation-cityRadios-1" value="city">
+                                city
+                                </label>
+                            </div>
+                        </div>
+
+                <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Name">Name</label>  
+                            <div class="col-md-4">
+                            <input id="cityVocID" name="Name" class="hide" type="text" placeholder="Name" class="form-control input-md">
+                            <input id="cityVocName" name="Name" type="text" placeholder="Name" class="form-control input-md" required="">
+                            <span class="help-block">Insert name here</span>  
+                            </div>
+                            </div>
+
+                            <!-- Button -->
+                            <div class="form-group">
+                            <label class="col-md-4 control-label" for="singlebutton">Submit</label>
+                            <div class="col-md-4">
+                                <button id="submitCityOrVoc" name="singlebutton" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
         <div class="formBackdrop hide" id="formBackdrop">
             <div class="modalForm">
                 <form id="register-player" class="form-horizontal register-player">
@@ -108,6 +154,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="#" id="createPlayerButton">Create Player</a></li>
+                        <li><a href="#" id="createVocCity">Create city or vocation</a></li>
                     </ul>
             </div>
         </nav>
@@ -117,6 +164,9 @@
         <div class="alert alert-danger hide" role="alert" id="failed-alert">
             
         </div>
+        
+        
+        
         <div class="container">
         <h2>Players List</h2>
         <p>List of players signed up for the MMO-RPG game Sally Forth</p>
@@ -137,36 +187,71 @@
         
         
         
-        <div class="behindSpinner">
-            
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>name</th>
-                        <th>level</th>
-                        <th>city</th>
-                        <th>vocation</th>
-                        <th></th>
-                        <th>sex</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="fetch-data">
+        
+        
+        
+        <div class="grid-container">
+            <div class="players">
+                <div class="behindSpinner">
                 
-                </tbody>
-            </table> 
-        </div>
-        
-        
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>level</th>
+                                <th>city</th>
+                                <th>vocation</th>
+                                <th></th>
+                                <th>sex</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="fetch-data">
+                    
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+            <div class="cities">
+                <h4>List of cities</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="citiesBody">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="vocations">
+                <h4>List of vocations</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="vocationsBody">
 
+                    </tbody>
+                </table>
+            </div>
+        </div>
         
 
         <script src="js/models/Player.js"></script>
         <!-- <script src="js/models/Form.js"></script>
         <script src="js/models/appState.js"></script> -->
-        <script src="js/controller/Controller.js"></script>   
+        <script src="js/controller/PlayerController.js"></script>   
+        <script src="js/controller/CityController.js"></script>
         <script src="js/views/scripts.js"></script>   
     </body>
 </html>

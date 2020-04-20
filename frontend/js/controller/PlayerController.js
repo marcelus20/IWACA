@@ -33,18 +33,7 @@ class Controller {
         });
     }
 
-    /**
-     * Sends requests to /cities
-     * @param {} callback 
-     */
-    getCities(callback){
-        $.ajax({
-            url: "/api/v2/cities",
-            type: 'GET',
-            dataType: 'json', 
-            success: callback
-        });
-    }
+    
 
     /**
      * Sends requests to /vocations

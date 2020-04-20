@@ -35,3 +35,17 @@ Code retrieved from https://loading.io/css/
     transform: rotate(1800deg);
   }
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1px 1px;
+  grid-template-areas: "players players ." "cities vocations .";
+}
+
+.players { grid-area: players; }
+
+.cities { grid-area: cities; }
+
+.vocations { grid-area: vocations; }

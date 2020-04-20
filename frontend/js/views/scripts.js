@@ -24,6 +24,7 @@ $(document).ready(()=>{
         players : [],
     }
     const controller         = Controller.init();
+    const cityController     = CityController.getInstance();
     const tableBody          = $('#fetch-data');
     const spinner            = $('#spinner');
     const failedAlert        = $('#failed-alert');
@@ -37,11 +38,69 @@ $(document).ready(()=>{
     const backdrop           = $('#formBackdrop');
     const createPlayerButton = $('#createPlayerButton');
     const closeBackDrop      = $(`#closebackdrop`);
+    const closeBackDrop2     = $(`#closebackdrop2`);
     const nameInput          = $('#name');
     const levelInput         = $('#level-input');
     const sexF               = $('#Sex-0');
     const sexM               = $('#Sex-1');
     const playerIdInput      = $('#playerIdInput');
+    const registerVocCity    = $('#registeVocation-city');
+    const formBackdrop2      = $('#formBackdrop2');
+    const createVocCity      = $('#createVocCity');
+    const vocCityradios      = $('#vocation-cityRadios');
+    const vocCityName        = $('#cityVocName');
+    const citiesBody         = $('#citiesBody');
+    const vocationsBody      = $('#vocationsBody');
+
+    
+    registerVocCity.submit((e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const idInput =$('#cityVocID');
+        console.log(idInput.val());
+        show(spinner);
+        const record = {
+            "name": vocCityName.val()
+        };
+
+        const cityVoc = $("#registeVocation-city input[type='radio']:checked").val();
+        switch (cityVoc){
+            case "vocation":
+                //create vocation
+                hide(spinner);
+                break;
+            case "city":
+                if(!idInput.val() == ""){
+                    cityController.updateCity(record, idInput.val(),res=>{
+                        console.log(res);
+                        main();
+                        hide(spinner);
+                    });
+                }else{
+                    cityController.createCity(JSON.stringify(record), (res)=>{
+                        console.log(res);
+                        main();
+                        hide(spinner);
+                    });
+                }
+                
+                break;
+            default:
+                console.log(cityVoc);
+                break;
+        }
+        idInput.html("");
+        hide(formBackdrop2);
+    });
+    
+    closeBackDrop2.click(()=>{
+        hide(formBackdrop2);
+    });
+
+    createVocCity.click(()=>{
+        console.log('hello');
+        show(formBackdrop2);
+    });
 
     closeBackDrop.click(()=>{
         hide(backdrop);
@@ -92,6 +151,8 @@ $(document).ready(()=>{
     });
     const clearTable         = () => {
         tableBody.html("");
+        citiesBody.html('');
+        vocationsBody.html('');
     }
     const sortPlayers        = (p1, p2) => {
         switch (state.order){
@@ -111,7 +172,7 @@ $(document).ready(()=>{
                 }
             case orders.CITY:
                 //Alphabetical ascending order
-                if(p1.name < p2.name){
+                if(p1.city > p2.city){
                     return -1;
                 }else{
                     return 1;
@@ -132,14 +193,93 @@ $(document).ready(()=>{
         jqueryObject.removeClass("hide");
     }
     const render = () => {
-        const players = [...state.players];
+        clearTable();
+        const players = [...state.players].sort(sortPlayers);
         const vocations = [...state.vocations];
         const cities = [...state.cities];
 
+        vocationsSelect.html("");
+        citiesSelect.html("");
         vocations.forEach(vocation=>vocationsSelect.append(`<option value="${vocation._id}">${vocation.name}</option>`));
-        cities.forEach(city=>citiesSelect.append(`<option value="${city._id}">${city.name}</option>`));
+        cities.forEach(city=>{
+            const tdId = $(`<td>${shortenId(city._id)}</td>`);
+            const tdName = $(`<td>${city.name}</td>`);
+            const tr = $(`<tr id=${city._id}></tr>`);
+            
 
-        clearTable();
+
+             const editingIcon = $(`
+            <td id="edit_${city._id}" class="hide">
+                <svg id="edit${city._id}" class="pointer bi bi-pencil" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/>
+                </svg>
+            <td>
+            `);
+            
+            //adding trash can icon
+            const trashIcon = $(`
+            <td id="remove_${city._id}" class="hide">
+                <svg id="trash${city._id}" class="pointer bi bi-trash-fill" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clip-rule="evenodd"/>
+                </svg>
+            </td>
+            `);
+
+            editingIcon.hover(()=>{
+                $(`#edit${city._id}`).width("2em").height("2em");
+            },()=>{
+                $(`#edit${city._id}`).width("1.5em").height("1.5em");
+            });
+
+            trashIcon.hover(()=>{
+                $(`#trash${city._id}`).width("2em").height("2em");
+            },()=>{
+                $(`#trash${city._id}`).width("1.5em").height("1.5em");
+            });
+
+            
+
+            trashIcon.on('click', ()=>{
+                show(spinner);
+                cityController.deleteCity(city._id,(res)=>{
+                    console.log(res);
+                    main();
+                    hide(spinner);
+                    
+                })
+            });
+
+            editingIcon.click(()=>{
+                show(formBackdrop2);
+                $("#vocation-cityRadios-1").prop("checked", true);
+                vocCityName.val(city.name);
+                $('#cityVocID').val(city._id);
+            });
+
+            //assigning listener hover to row
+            tr.hover(()=>{
+                    show(editingIcon);
+                    show(trashIcon);
+                },()=>{
+                    hide(editingIcon);
+                    hide(trashIcon)
+            });
+            tr.append(tdId);
+            tr.append(tdName);
+            
+            tr.append(editingIcon);
+            tr.append(trashIcon);
+            citiesBody.append(tr)
+
+            
+            citiesSelect.append(`<option value="${city._id}">${city.name}</option>`)
+        });
+
+        
+        
+        
+        
         players.forEach(p=>{
             delete p.__v;
             const tr = $(`<tr id="row_${p._id}"></tr>`);
@@ -227,7 +367,7 @@ $(document).ready(()=>{
         show(spinner);
         controller.getPlayers(players=>{
             state.players = [...players];
-            controller.getCities(cities=>{
+            cityController.getCities(cities=>{
                 state.cities = [...cities];
                 controller.getVocations(vocations=>{
                     state.vocations = [...vocations];
