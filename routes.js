@@ -49,7 +49,7 @@ router.put('/api/v2/vocation/:id', vocationController.updateVocation);
 //router delete
 router.delete('/api/v2/player/:id', playerController.deletePlayer);
 router.delete('/api/v2/city/:id', cityController.deleteCity);
-router.delete('/api/v2/vocation/:id', vocationController.updateVocation);
+router.delete('/api/v2/vocation/:id', vocationController.deleteVocation);
 router.delete('/api/v2/api/v2/images/:id', imageCtrl.deleteImage);
 
 

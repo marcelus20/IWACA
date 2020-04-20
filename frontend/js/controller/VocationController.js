@@ -34,7 +34,7 @@ const VocationController = class {
         $.ajax({
             type: "POST",
             url: `/api/v2/vocation`,
-            data: city,
+            data: vocation,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: callback
