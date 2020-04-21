@@ -69,7 +69,7 @@ const CityController = class {
             data: JSON.stringify(city),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback,
+            success: callback1,
             error: callback2
         });
     }

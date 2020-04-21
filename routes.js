@@ -26,7 +26,6 @@ const home = (req, res) => {
             'Content-Type': 'text/html'
     }
     const doc = fs.readFileSync('frontend/index.html', 'utf-8');
-
     res.end(doc);
 }
 
@@ -41,6 +40,8 @@ router.get('/api/v2/vocation/:id', vocationController.getVocation);
 router.get('/api/v2/images', imageCtrl.getImages);
 router.get('/api/v2/image/:id', imageCtrl.getImage);
 router.get('/api/v2/vocation', vocationController.getVocation);
+router.get('/api/v2/correspondentImage/:vocationId', imageCtrl.getVocationCorrespondentImage);
+router.get('/api/v2/isVocationRelated/:imageId', imageCtrl.isVocationRelated);
 router.post('/api/v2/player', playerController.createPlayer);
 router.post('/api/v2/image', upload.single('image'), imageCtrl.uploadImage);
 router.post('/api/v2/city', cityController.createCity);
@@ -55,6 +56,15 @@ router.delete('/api/v2/city/:id', cityController.deleteCity);
 router.delete('/api/v2/vocation/:id', vocationController.deleteVocation);
 router.delete('/api/v2/image/:id', imageCtrl.deleteImage);
 
+
+//If path is anythig else but the routes above declared, send this not found response
+const notFoundPath = (req, res) => {
+    res.status(404).send({"message": "Path doesn`t exist"});
+}
+router.get('/*', notFoundPath);
+router.post('/*', notFoundPath);
+router.put('/*', notFoundPath);
+router.delete('/*', notFoundPath);
 
 
 

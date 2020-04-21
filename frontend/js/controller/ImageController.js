@@ -30,6 +30,16 @@ const ImageController = class {
         });
     }
 
+    isVocationRelated(id, callback1, callback2){
+        $.ajax({
+            url: `/api/v2/isVocationRelated/${id}`,
+            type: 'GET',
+            dataType: 'json', 
+            success: callback1,
+            error: callback2
+        });
+    }
+
 
     createImage(data, callback1, callback2){
         $.ajax({
