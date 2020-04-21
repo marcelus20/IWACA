@@ -4,7 +4,7 @@
 
 $(document).ready(()=>{
 
-    const images             = {
+    const vocationImages             = {
         "knight"         :"/api/v2/image/5e9a66dfd62b4567d4dd66f9",
         "paladin"        :"/api/v2/image/5e9a66f8d62b4567d4dd66fb",
         "sorcerer"       :"/api/v2/image/5e9a6711d62b4567d4dd66fe",
@@ -26,6 +26,7 @@ $(document).ready(()=>{
     const controller         = Controller.init();
     const cityController     = CityController.getInstance();
     const vocationController = VocationController.getInstance();
+    const imageController    = ImageController.getInstance();
     const tableBody          = $('#fetch-data');
     const spinner            = $('#spinner');
     const failedAlert        = $('#failed-alert');
@@ -52,6 +53,31 @@ $(document).ready(()=>{
     const vocCityName        = $('#cityVocName');
     const citiesBody         = $('#citiesBody');
     const vocationsBody      = $('#vocationsBody');
+    const imagesData         = $('#imagesData');
+    const imaging            = $('#imaging');
+    const sendImage          = $('#sendImage');
+    const imageInput         = $('#imageInput');
+    const closebackdrop3     = $('#closebackdrop3');
+
+    closebackdrop3.click(()=>{
+        hide($('#formBackdrop3'));
+    });
+
+    sendImage.submit((e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const form = $('#sendImage')[0];
+        const data = new FormData(form);
+        imageController.createImage(data, (sucess=>{
+            main();
+        }),(e=>{
+            console.log(e);
+            main();
+        }));
+        
+    });
+
+    
 
     
     registerVocCity.submit((e)=>{
@@ -169,6 +195,7 @@ $(document).ready(()=>{
         tableBody.html("");
         citiesBody.html('');
         vocationsBody.html('');
+        imagesData.html('');
     }
     const sortPlayers        = (p1, p2) => {
         switch (state.order){
@@ -213,6 +240,53 @@ $(document).ready(()=>{
         const players = [...state.players].sort(sortPlayers);
         const vocations = [...state.vocations];
         const cities = [...state.cities];
+        const images = [...state.images];
+
+ 
+        images.forEach(image=>{
+            const notAllowedIds = [
+                "5e9a66bfd62b4567d4dd66f7",
+                "5e9a66d1d62b4567d4dd66f8",
+                "5e9a66ead62b4567d4dd66fa",
+                "5e9a66f8d62b4567d4dd66fb",
+                "5e9a6701d62b4567d4dd66fc",
+                "5e9a6709d62b4567d4dd66fd",
+                "5e9a6711d62b4567d4dd66fe",
+                "5e9bc0b11276b096c46267b8",
+                "5e9e4692d7f6e00eed89e884"
+            ];
+            const imageDiv = $('<div class="imageBlock" ></div>'); 
+            const notAllowedDiv = $(`#deleteWarning`);
+            const trashIcon = $(`
+            <svg id="trash${image._id}" class="pointer bi bi-trash-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clip-rule="evenodd"/>
+            </svg>   
+            `);
+            trashIcon.hover(()=>{
+                if(notAllowedIds.includes(image._id)){
+                    trashIcon.addClass('not-allowed');
+                    show(notAllowedDiv);
+                }
+            }, ()=>{
+                hide(notAllowedDiv);
+            });
+            trashIcon.click(()=>{
+                show(spinner);
+                imageController.deleteImage(image._id, res=>{
+                    main();
+                },e=>{
+                    console.log(e);
+                });
+            });
+            const imageElement = `<img height="50px" width="50px" src="/api/v2/image/${image._id}"/>`;
+            imageDiv.append(`<label>${shortenId(image.originalName)}</label>`)
+            imageDiv.append(trashIcon);
+            imageDiv.append(imageElement);
+            hide(notAllowedDiv);
+            
+
+            imagesData.append(imageDiv);
+        });
 
         vocationsSelect.html("");
         citiesSelect.html("");
@@ -379,7 +453,11 @@ $(document).ready(()=>{
                 
                 if(key == "vocation"){
                     tr.append(`<td>${state.vocations.find(vocation=>vocation._id == p[key]).name}</td>`);
-                    tr.append(`<td><img src="${images[state.vocations.find(vocation=>vocation._id == p[key]).name]}" /></td>`);
+                    tr.append(`<td><img src="${
+                        vocationImages[state.vocations.find(vocation=>vocation._id == p[key]).name] != undefined?
+                        vocationImages[state.vocations.find(vocation=>vocation._id == p[key]).name]
+                        :"/api/v2/image/5e9e4692d7f6e00eed89e884"
+                    }" /></td>`);
                 }else if(key == "city"){
                     tr.append(`<td>${state.cities.find(city=>city._id == p[key]).name}</td>`);
                 }else{
@@ -463,13 +541,27 @@ $(document).ready(()=>{
                 state.cities = [...cities];
                 vocationController.getVocations(vocations=>{
                     state.vocations = [...vocations];
-                    render();
-                    hide(spinner);
+                    imageController.getImages(images=>{
+                        state.images = images;
+                        console.log(images);
+                        render();
+                        hide(spinner);
+                    });
                 });
             });    
         });
     }
     main();
+
+    const showImages = () => {
+        show($('#formBackdrop3'));
+    }
+
+    const hideImages = () => {
+        hide($('#formBackdrop3'));
+    }
+
+    imaging.click(showImages);
 });
 
 

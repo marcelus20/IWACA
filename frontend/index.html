@@ -13,9 +13,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
-    <title>Felipe Mantovani 2017192</title>
+    <title>Felipe Mantovani 2017192 IWA CA 2</title>
 </head>
     <body>
+        <div class="formBackdrop hide" id="formBackdrop3">
+        <div class="grid-container">
+           <div class="modalForm">
+           <span class="material-icons pointer left" id="closebackdrop3">
+                                close
+                            </span>
+            <div class="imageForm">
+                <h5>Please, neither upload porn nor sick bizarre content related things such as necrophily, gore, CP, etc.</h5>
+                <form action="/api/v2/image" method="post" enctype="multipart/form-data" id="sendImage">
+                    <input id="file" class="btn" type="file" name="image" accept="image/gif, image/jpeg, image/png"/>
+                    <button id="sendImae" class="btn btn-primary">Send</button>
+                </form>
+                <div id="deleteWarning" class="hide  red">not allowed to delete vocation related images. You can only delete images you upload.</div>
+            </div>
+            <div class="images" id="imagesData">...</div>
+           </div>
+        </div>
+        </div>
         <div class="formBackdrop hide" id="formBackdrop2">
             <div class="modalForm">
                 <form class="form-horizontal register-player" id="registeVocation-city">
@@ -155,6 +173,7 @@
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="#" id="createPlayerButton">Create Player</a></li>
                         <li><a href="#" id="createVocCity">Create city or vocation</a></li>
+                        <li><a href="#" id="imaging">Upload or Delete an image</a></li>
                     </ul>
             </div>
         </nav>
@@ -253,6 +272,7 @@
         <script src="js/controller/PlayerController.js"></script>   
         <script src="js/controller/CityController.js"></script>
         <script src="js/controller/VocationController.js"></script>
+        <script src="js/controller/ImageController.js"></script>
         <script src="js/views/scripts.js"></script>   
     </body>
 </html>

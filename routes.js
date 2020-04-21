@@ -20,14 +20,17 @@ router.use(express.json());
 router.use(express.static(path.join(__dirname, 'frontend')));
 router.use(express.json());
 router.use(expAutoSan.allUnsafe);
-router.get('/', (req, res) => {
+
+const home = (req, res) => {
     const header = {
             'Content-Type': 'text/html'
     }
     const doc = fs.readFileSync('frontend/index.html', 'utf-8');
 
     res.end(doc);
-});
+}
+
+router.get('/', home);
 router.get('/api/v2', mainController.selectEverything);
 router.get('/api/v2/players', playerController.getPlayers);
 router.get('/api/v2/player/:id', playerController.getPlayer);
@@ -39,7 +42,7 @@ router.get('/api/v2/images', imageCtrl.getImages);
 router.get('/api/v2/image/:id', imageCtrl.getImage);
 router.get('/api/v2/vocation', vocationController.getVocation);
 router.post('/api/v2/player', playerController.createPlayer);
-router.post('/api/v2/images', upload.single('image'), imageCtrl.uploadImage);
+router.post('/api/v2/image', upload.single('image'), imageCtrl.uploadImage);
 router.post('/api/v2/city', cityController.createCity);
 router.post('/api/v2/vocation', vocationController.createVocation);
 //updating
@@ -50,7 +53,7 @@ router.put('/api/v2/vocation/:id', vocationController.updateVocation);
 router.delete('/api/v2/player/:id', playerController.deletePlayer);
 router.delete('/api/v2/city/:id', cityController.deleteCity);
 router.delete('/api/v2/vocation/:id', vocationController.deleteVocation);
-router.delete('/api/v2/api/v2/images/:id', imageCtrl.deleteImage);
+router.delete('/api/v2/image/:id', imageCtrl.deleteImage);
 
 
 

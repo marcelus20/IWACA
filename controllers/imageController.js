@@ -6,17 +6,28 @@ var path = require('path');
 const fs = require('fs');
 const del = require('del');
 
-exports.uploadImage = function(req, res) {
-    let newImage = new Image();
-    newImage.filename = req.file.filename;
-    newImage.originalName = req.file.originalname;
-    newImage.desc = req.body.desc;
-    newImage.save(err => {
-        if (err) {
-            return res.sendStatus(400);
-        }
-        res.status(201).send({ newImage })
-    });
+exports.uploadImage = function(req, res, callback) {
+    try{
+        console.log(req.file);
+        let newImage = new Image();
+        newImage.filename = req.file.filename;
+        newImage.originalName = req.file.originalname;
+        newImage.desc = req.body.desc;
+        newImage.save(err => {
+            if (err) {
+                return res.sendStatus(400);
+            }
+            if(callback){
+                callback(req, res);
+            }else{
+                res.status(201).send({ newImage });
+            }
+            
+        });
+    }catch(e){
+        res.status(500).send(e);
+    }
+    
 };
 
 exports.getImages = function(req, res) {
@@ -58,7 +69,7 @@ exports.deleteImage = function(req, res) {
         }
 
         del([path.join(UPLOAD_PATH, image.filename)]).then(deleted => {
-            res.sendStatus(200);
+            res.status(200).send(deleted);
         });
     });
 };
