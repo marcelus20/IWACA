@@ -30,14 +30,15 @@ const VocationController = class {
     }
 
 
-    createVocation(vocation, callback){
+    createVocation(vocation, callback1, callback2){
         $.ajax({
             type: "POST",
             url: `/api/v2/vocation`,
             data: vocation,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback1,
+            error: callback2
         });
     }
 
@@ -46,13 +47,14 @@ const VocationController = class {
      * @param {} id 
      * @param {*} callback 
      */
-    deleteVocation(id, callback){
+    deleteVocation(id, callback1, callback2){
         $.ajax({
             type: "DELETE",
             url: `/api/v2/vocation/${id}`,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback1,
+            error : callback2
         });
     }
 
@@ -61,14 +63,15 @@ const VocationController = class {
      * @param {*} player 
      * @param {*} callback 
      */
-    updateVocation(vocation, id, callback){
+    updateVocation(vocation, id, callback1, callback2){
         $.ajax({
             type: "PUT",
             url: `/api/v2/vocation/${id}`,
             data: JSON.stringify(vocation),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback1,
+            error: callback2
         });
     }
 

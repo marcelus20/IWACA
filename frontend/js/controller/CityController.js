@@ -30,14 +30,15 @@ const CityController = class {
     }
 
 
-    createCity(city, callback){
+    createCity(city, callback1, callback2){
         $.ajax({
             type: "POST",
             url: `/api/v2/city`,
             data: city,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback1,
+            error: callback2
         });
     }
 
@@ -61,14 +62,15 @@ const CityController = class {
      * @param {*} player 
      * @param {*} callback 
      */
-    updateCity(city, id, callback){
+    updateCity(city, id, callback1, callback2){
         $.ajax({
             type: "PUT",
             url: `/api/v2/city/${id}`,
             data: JSON.stringify(city),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback,
+            error: callback2
         });
     }
 

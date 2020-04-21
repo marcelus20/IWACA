@@ -54,7 +54,7 @@ class Controller {
      * @param {*} form 
      * @param {*} callback 
      */
-    createPlayer(player, callback){
+    createPlayer(player, callback1, callback2){
 
         $.ajax({
             type: "POST",
@@ -62,7 +62,8 @@ class Controller {
             data: player,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback1,
+            error: callback2
         });
     }
 
@@ -71,13 +72,14 @@ class Controller {
      * @param {} id 
      * @param {*} callback 
      */
-    deletePlayer(id, callback){
+    deletePlayer(id, callback1, callback2){
         $.ajax({
             type: "DELETE",
             url: `/api/v2/player/${id}`,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback1,
+            error: callback2
         });
     }
 
@@ -86,14 +88,15 @@ class Controller {
      * @param {*} player 
      * @param {*} callback 
      */
-    updatePlayer(player, id, callback){
+    updatePlayer(player, id, callback1, callback2){
         $.ajax({
             type: "PUT",
             url: `/api/v2/player/${id}`,
             data: JSON.stringify(player),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: callback
+            success: callback1,
+            error: callback2
         });
     }
 
