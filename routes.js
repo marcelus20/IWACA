@@ -42,6 +42,8 @@ router.get('/api/v2/image/:id', imageCtrl.getImage);
 router.get('/api/v2/vocation', vocationController.getVocation);
 router.get('/api/v2/correspondentImage/:vocationId', imageCtrl.getVocationCorrespondentImage);
 router.get('/api/v2/isVocationRelated/:imageId', imageCtrl.isVocationRelated);
+router.get('/api/v2/defaultVocationRelated/', vocationController.defaultVocationRelated);
+router.get('/api/v2/checkIfVocationIsDefault/:vocationId', vocationController.checkIfVocationIsDefault);
 router.post('/api/v2/player', playerController.createPlayer);
 router.post('/api/v2/image', upload.single('image'), imageCtrl.uploadImage);
 router.post('/api/v2/city', cityController.createCity);

@@ -75,4 +75,24 @@ const VocationController = class {
         });
     }
 
+    checkIfVocationIsDefault(id, callback1, callback2){
+        $.ajax({
+            url: "/api/v2/checkIfVocationIsDefault/"+id,
+            type: 'GET',
+            dataType: 'json', 
+            success: callback1,
+            error:callback2
+        });
+    }
+
+    defaultVocationRelated(callback1, callback2){
+        $.ajax({
+            url: "/api/v2/defaultVocationRelated",
+            type: 'GET',
+            dataType: 'json', 
+            success: callback1,
+            error: callback2
+        });
+    }
+
 }

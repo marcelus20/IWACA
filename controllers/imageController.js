@@ -75,9 +75,8 @@ exports.isVocationRelated = (req, res) =>{
         const vocationImagesId = vocations.map(vocation=>vocation.image);
         //include the defaul vocation images (vocations that user creates);
         vocationImagesId.push('5e9f58593ce82b082803dff4');
-        vocationImagesId.forEach(id=>console.log(id == req.params.imageId));
         // vocationImagesId.forEach(id=>console.log(`${id} == ${req.params.imageId}`));
-        console.log('\n\n\n\n'+ req.params.imageId);
+ 
         //now check if the ID passed in the routing is included in the vocationImagesIdArray
         res.status(200).send({"vocationRelated": vocationImagesId.reduce((acc, current)=> req.params.imageId == current || acc, false)});
     });

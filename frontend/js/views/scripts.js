@@ -109,14 +109,17 @@ $(document).ready(()=>{
                         showAlert(warningAlert);
                     });
                 }else{
-                    vocationController.createVocation(JSON.stringify(record), (res)=>{
-                        main();
-                        hide(spinner);
-                        showAlert(successAlert);
-                    },e=>{
-                        main();
-                        hide(spinner);
-                        showAlert(warningAlert);
+                    vocationController.defaultVocationRelated(res=>{
+                        record.image = res["default"];
+                        vocationController.createVocation(JSON.stringify(record), (res)=>{
+                            main();
+                            hide(spinner);
+                            showAlert(successAlert);
+                        },e=>{
+                            main();
+                            hide(spinner);
+                            showAlert(warningAlert);
+                        });
                     });
                 }
                 hide(spinner);
@@ -291,7 +294,7 @@ $(document).ready(()=>{
             
             //if image is content related, you won't be allowed to delete it. 
             imageController.isVocationRelated(image._id, res=>{
-                console.log(res);
+
                 if(res["vocationRelated"]){
                     trashIcon.addClass('not-allowed');
                     trashIcon.hover(()=>{
@@ -332,6 +335,8 @@ $(document).ready(()=>{
             const tr = $(`<tr id=${vocation._id}></tr>`);
             
 
+           
+
 
              const editingIcon = $(`
             <td id="edit_${vocation._id}" class="hide">
@@ -351,50 +356,66 @@ $(document).ready(()=>{
             </td>
             `);
 
+             //validate default vocation. If it is default, the trashicon should not work
+            vocationController.checkIfVocationIsDefault(vocation._id, res=>{
+                console.log(res);
+                if(res["defaultVocation"]){
+                    //editing and deleting won't be available
+                    editingIcon.children('svg').addClass('not-allowed');
+                    trashIcon.children('svg').addClass('not-allowed')
+                    tr.hover(()=>{
+                        show(editingIcon);
+                        show(trashIcon);
+                    },()=>{
+                        hide(editingIcon);
+                        hide(trashIcon)
+                    });
+                }else{
+                    //editing and deleting are available
+                    trashIcon.on('click', ()=>{
+                        show(spinner);
+                        vocationController.deleteVocation(vocation._id,(res)=>{
+                            console.log(res);
+                            main();
+                            hide(spinner);
+                            showAlert(successAlert);
+                        }, e=>{
+                            main();
+                            hide(spinner);
+                            showAlert(warningAlert);
+                            })
+                    });
+                    editingIcon.click(()=>{
+                        show(formBackdrop2);
+                        $("#vocation-cityRadios-0").prop("checked", true);
+                        $("#vocation-cityRadios-1").prop("disabled", true);
+                        vocCityName.val(vocation.name);
+                        $('#cityVocID').val(vocation._id);
+                    });
+                    tr.hover(()=>{
+                        show(editingIcon);
+                        show(trashIcon);
+                    },()=>{
+                        hide(editingIcon);
+                        hide(trashIcon)
+                    });
+                }
+            });
+
             editingIcon.hover(()=>{
-                $(`#edit${vocation._id}`).width("2em").height("2em");
+                $(`#edit${vocation._id}`).width("1.6em").height("1,6em");
             },()=>{
                 $(`#edit${vocation._id}`).width("1.5em").height("1.5em");
             });
 
             trashIcon.hover(()=>{
-                $(`#trash${vocation._id}`).width("2em").height("2em");
+                $(`#trash${vocation._id}`).width("1,6em").height("1.6em");
             },()=>{
                 $(`#trash${vocation._id}`).width("1.5em").height("1.5em");
             });
 
-            
-
-            trashIcon.on('click', ()=>{
-                show(spinner);
-                vocationController.deleteVocation(vocation._id,(res)=>{
-                    console.log(res);
-                    main();
-                    hide(spinner);
-                    showAlert(successAlert);
-                }, e=>{
-                    main();
-                    hide(spinner);
-                    showAlert(warningAlert);
-                })
-            });
-
-            editingIcon.click(()=>{
-                show(formBackdrop2);
-                $("#vocation-cityRadios-0").prop("checked", true);
-                $("#vocation-cityRadios-1").prop("disabled", true);
-                vocCityName.val(vocation.name);
-                $('#cityVocID').val(vocation._id);
-            });
-
             //assigning listener hover to row
-            tr.hover(()=>{
-                    show(editingIcon);
-                    show(trashIcon);
-                },()=>{
-                    hide(editingIcon);
-                    hide(trashIcon)
-            });
+            
             tr.append(tdId);
             tr.append(tdName);
             
@@ -484,88 +505,93 @@ $(document).ready(()=>{
 
            
     players.forEach(p=>{
-            delete p.__v;
-            const tr = $(`<tr id="row_${p._id}"></tr>`);
-            Object.keys(p).forEach(key=>{
-                if(key == "vocation"){
-                    tr.append(`<td>${state.vocations.find(vocation=>vocation._id == p[key]).name}</td>`);
-                    console.log(p.vocation);
-                    tr.append(`<td><img src="/api/v2/correspondentImage/${p.vocation}" /></td>`);
-                }else if(key == "city"){
-                    tr.append(`<td>${state.cities.find(city=>city._id == p[key]).name}</td>`);
-                }else{
-                    tr.append(`<td>${key=="_id"?shortenId(p[key]):p[key]}</td>`);
-                }  
-            });
-            //adding editing icon
-            const editingIcon = $(`
-            <td id="edit_${p._id}" class="hide">
-                <svg id="edit${p._id}" class="pointer bi bi-pencil" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/>
-                    <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/>
-                </svg>
-            <td>
-            `);
-            
-            //adding trash can icon
-            const trashIcon = $(`
-            <td id="remove_${p._id}" class="hide">
-                <svg id="trash${p._id}" class="pointer bi bi-trash-fill" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clip-rule="evenodd"/>
-                </svg>
-            </td>
-            `);
+            if(p != undefined){
 
-            editingIcon.hover(()=>{
-                $(`#edit${p._id}`).width("2em").height("2em");
-            },()=>{
-                $(`#edit${p._id}`).width("1.5em").height("1.5em");
-            });
+                delete p.__v;
+                const tr = $(`<tr id="row_${p._id}"></tr>`);
+                Object.keys(p).forEach(key=>{
+                    console.log(p);
+                    if(key == "vocation"){
+                        tr.append(`<td>${state.vocations.find(vocation=>vocation._id == p[key]).name}</td>`);
+                        console.log(p.vocation);
+                        tr.append(`<td><img src="/api/v2/correspondentImage/${p.vocation}" /></td>`);
+                    }else if(key == "city"){
+                        tr.append(`<td>${state.cities.find(city=>city._id == p[key]).name}</td>`);
+                    }else{
+                        tr.append(`<td>${key=="_id"?shortenId(p[key]):p[key]}</td>`);
+                    }  
+                });
+                //adding editing icon
+                const editingIcon = $(`
+                <td id="edit_${p._id}" class="hide">
+                    <svg id="edit${p._id}" class="pointer bi bi-pencil" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/>
+                    </svg>
+                <td>
+                `);
+                
+                //adding trash can icon
+                const trashIcon = $(`
+                <td id="remove_${p._id}" class="hide">
+                    <svg id="trash${p._id}" class="pointer bi bi-trash-fill" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clip-rule="evenodd"/>
+                    </svg>
+                </td>
+                `);
 
-            trashIcon.hover(()=>{
-                $(`#trash${p._id}`).width("2em").height("2em");
-            },()=>{
-                $(`#trash${p._id}`).width("1.5em").height("1.5em");
-            });
-
-            
-
-            trashIcon.on('click', ()=>{
-                show(spinner);
-                controller.deletePlayer(p._id,()=>{
-                    main();
-                    hide(spinner);
-                    showAlert(sucessAlert);
-                },e=>{
-                    main();
-                    hide(spinner);
-                    showAlert(warningAlert);
-                })
-            });
-
-            editingIcon.click(()=>{
-                show(backdrop);
-                playerIdInput.val(p._id);
-                nameInput.val(p.name);
-                levelInput.val(p.level);
-                $("#register-player input[type='radio']:checked").val(p.sex);
-                vocationsSelect.val(p.vocation);
-                citiesSelect.val(p.city);
-            });
-
-            //assigning listener hover to row
-            tr.hover(()=>{
-                    show(editingIcon);
-                    show(trashIcon);
+                editingIcon.hover(()=>{
+                    $(`#edit${p._id}`).width("2em").height("2em");
                 },()=>{
-                    hide(editingIcon);
-                    hide(trashIcon)
-            });
-            tr.append(editingIcon);
-            tr.append(trashIcon);
+                    $(`#edit${p._id}`).width("1.5em").height("1.5em");
+                });
 
-            tableBody.append(tr);
+                trashIcon.hover(()=>{
+                    $(`#trash${p._id}`).width("2em").height("2em");
+                },()=>{
+                    $(`#trash${p._id}`).width("1.5em").height("1.5em");
+                });
+
+                
+
+                trashIcon.on('click', ()=>{
+                    show(spinner);
+                    controller.deletePlayer(p._id,()=>{
+                        main();
+                        hide(spinner);
+                        showAlert(sucessAlert);
+                    },e=>{
+                        main();
+                        hide(spinner);
+                        showAlert(warningAlert);
+                    })
+                });
+
+                editingIcon.click(()=>{
+                    show(backdrop);
+                    playerIdInput.val(p._id);
+                    nameInput.val(p.name);
+                    levelInput.val(p.level);
+                    $("#register-player input[type='radio']:checked").val(p.sex);
+                    vocationsSelect.val(p.vocation);
+                    citiesSelect.val(p.city);
+                });
+
+                //assigning listener hover to row
+                tr.hover(()=>{
+                        show(editingIcon);
+                        show(trashIcon);
+                    },()=>{
+                        hide(editingIcon);
+                        hide(trashIcon)
+                });
+                tr.append(editingIcon);
+                tr.append(trashIcon);
+
+                tableBody.append(tr);
+            }
         })
+        
     }
     const main = () => {
         show(spinner);
