@@ -1,4 +1,5 @@
 const City = require('../models/city.js');
+const Player = require('../models/player.js');
 
 exports.createCity = (req, res) => { 
     console.log(req.body);
@@ -47,3 +48,18 @@ exports.deleteCity = (req, res) => {
     res.json(city);
   }); 
 };
+
+//check if city is being used by a player
+exports.cityIsAssociatedWithAPlayer = (req, res) => {
+    //get the list of player in db
+    Player.find({}, (err, players)=>{
+        if (err) {
+            res.status(400).json(err);
+        } 
+        //convert the array of player into an array of cities id
+        const ids = players.map(player=>player.city);
+        //check if id passed as params is in the array
+        console.log({"id":req.params.cityId, "ids": ids});
+        res.status(200).json({"association":ids.reduce((acc,current)=>req.params.cityId == current || acc, false)});
+    });
+}

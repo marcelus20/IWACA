@@ -73,5 +73,14 @@ const CityController = class {
             error: callback2
         });
     }
+    cityIsAssociatedWithAPlayer(id, callback1, callback2){
+        $.ajax({
+            url: "/api/v2/cityIsAssociatedWithAPlayer/"+id,
+            type: 'GET',
+            dataType: 'json', 
+            success: callback1,
+            callback2: callback2
+        });
+    }
 
 }

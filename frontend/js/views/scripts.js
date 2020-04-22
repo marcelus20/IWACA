@@ -470,30 +470,41 @@ $(document).ready(()=>{
             });
 
             trashIcon.hover(()=>{
-                $(`#trash${city._id}`).width("2em").height("2em");
+                $(`#trash${city._id}`).width("1.6em").height("1.6em");
             },()=>{
                 $(`#trash${city._id}`).width("1.5em").height("1.5em");
             });
 
+            //checking if a player is using this city
+            cityController.cityIsAssociatedWithAPlayer(city._id, res=>{
+                
+                if(!res["association"]){
+                    //if not associated, enable click event
+                    trashIcon.on('click', ()=>{
+                        show(spinner);
+                        cityController.deleteCity(city._id,(res)=>{
+                            console.log(res);
+                            main();
+                            hide(spinner);
+                            
+                        })
+                    });
+
+                    editingIcon.click(()=>{
+                        show(formBackdrop2);
+                        $("#vocation-cityRadios-1").prop("checked", true);
+                        $("#vocation-cityRadios-0").prop("disabled", true);
+                        vocCityName.val(city.name);
+                        $('#cityVocID').val(city._id);
+                    });
+                }else{
+                    //if associated, not allowed
+                    editingIcon.children('svg').addClass('not-allowed');
+                    trashIcon.children('svg').addClass('not-allowed');
+                }
+            });
+
             
-
-            trashIcon.on('click', ()=>{
-                show(spinner);
-                cityController.deleteCity(city._id,(res)=>{
-                    console.log(res);
-                    main();
-                    hide(spinner);
-                    
-                })
-            });
-
-            editingIcon.click(()=>{
-                show(formBackdrop2);
-                $("#vocation-cityRadios-1").prop("checked", true);
-                $("#vocation-cityRadios-0").prop("disabled", true);
-                vocCityName.val(city.name);
-                $('#cityVocID').val(city._id);
-            });
 
             //assigning listener hover to row
             tr.hover(()=>{
