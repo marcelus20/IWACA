@@ -371,33 +371,44 @@ $(document).ready(()=>{
                         hide(trashIcon)
                     });
                 }else{
-                    //editing and deleting are available
-                    trashIcon.on('click', ()=>{
-                        show(spinner);
-                        vocationController.deleteVocation(vocation._id,(res)=>{
-                            console.log(res);
-                            main();
-                            hide(spinner);
-                            showAlert(successAlert);
-                        }, e=>{
-                            main();
-                            hide(spinner);
-                            showAlert(warningAlert);
-                            })
-                    });
-                    editingIcon.click(()=>{
-                        show(formBackdrop2);
-                        $("#vocation-cityRadios-0").prop("checked", true);
-                        $("#vocation-cityRadios-1").prop("disabled", true);
-                        vocCityName.val(vocation.name);
-                        $('#cityVocID').val(vocation._id);
-                    });
+                    //before editting and delleting availability, we need to prevent user to delete 
+                    //a vocation that a player is associated with. If there is any association, player should not be able to delete
                     tr.hover(()=>{
-                        show(editingIcon);
-                        show(trashIcon);
-                    },()=>{
-                        hide(editingIcon);
-                        hide(trashIcon)
+                                show(editingIcon);
+                                show(trashIcon);
+                            },()=>{
+                                hide(editingIcon);
+                                hide(trashIcon)
+                            });
+                    vocationController.isAssociatedWithAPlayer(vocation._id, res=>{
+
+                        //if there is no assiciation, make available the editting and deleting
+                        if(!res["association"]){
+                            trashIcon.on('click', ()=>{
+                                show(spinner);
+                                vocationController.deleteVocation(vocation._id,(res)=>{
+                                    console.log(res);
+                                    main();
+                                    hide(spinner);
+                                    showAlert(successAlert);
+                                }, e=>{
+                                    main();
+                                    hide(spinner);
+                                    showAlert(warningAlert);
+                                    })
+                            });
+                            editingIcon.click(()=>{
+                                show(formBackdrop2);
+                                $("#vocation-cityRadios-0").prop("checked", true);
+                                $("#vocation-cityRadios-1").prop("disabled", true);
+                                vocCityName.val(vocation.name);
+                                $('#cityVocID').val(vocation._id);
+                            });
+                            
+                        }else{
+                            editingIcon.children('svg').addClass('not-allowed');
+                            trashIcon.children('svg').addClass('not-allowed');
+                        }
                     });
                 }
             });
@@ -506,7 +517,6 @@ $(document).ready(()=>{
            
     players.forEach(p=>{
             if(p != undefined){
-
                 delete p.__v;
                 const tr = $(`<tr id="row_${p._id}"></tr>`);
                 Object.keys(p).forEach(key=>{

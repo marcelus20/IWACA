@@ -95,4 +95,14 @@ const VocationController = class {
         });
     }
 
+    isAssociatedWithAPlayer(id, callback1, callback2){
+        $.ajax({
+            url: "/api/v2/isAssociatedWithAPlayer/" + id,
+            type: 'GET',
+            dataType: 'json', 
+            success: callback1,
+            error: callback2
+        });
+    }
+
 }

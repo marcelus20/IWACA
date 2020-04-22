@@ -1,4 +1,5 @@
 const Vocation = require('../models/vocation.js');
+const Player   = require('../models/player'); 
 
 
 //declaring vocations that user cannot delete
@@ -62,6 +63,17 @@ exports.checkIfVocationIsDefault = (req, res) => {
 //This image is going to be associated with the vocations user creates
 exports.defaultVocationRelated = (req, res) => {
     res.status(200).json({default: "5e9f58593ce82b082803dff4"});
+}
+//to prevent deleting a Vocation with an existing player, this callback will check first this association.
+//It is not allowed to delete a vocation without having deleted the player associated the that vocation. 
+exports.isAssociatedWithAPlayer = (req, res) => {
+    //first, get the array of players
+    Player.find({}, (err, players)=>{
+        //now turn this array of players into an array of vocation id
+        const ids = players.map(player=>player.vocation);
+        // console.log({"ids": ids, });
+        res.status(200).json({"association":ids.reduce((acc,current)=>req.params.vocationId == current || acc, false)});
+    });
 }
 
 exports.deleteVocation = (req, res) => {
