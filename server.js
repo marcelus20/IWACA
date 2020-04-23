@@ -25,7 +25,6 @@ app.listen(port, function(err){
     console.log("Listening on Port: " + port);
 });
 
-
 //Stabilishing connection with the DB database
 mongoose.connect(process.env.MONGO_URL);
 mongoose.connection.on('error', (err) => { 
