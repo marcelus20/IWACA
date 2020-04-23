@@ -21,7 +21,7 @@ app.use(routes);
 
 
 //port listening
-app.listen(port, function(err){
+app.listen(process.env.PORT || port, function(err){
     console.log("Listening on Port: " + port);
 });
 
