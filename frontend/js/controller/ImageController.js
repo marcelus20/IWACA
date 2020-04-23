@@ -1,9 +1,15 @@
 
-
+/**
+ * This is the controller responsible for sending request to image routings
+ * Felipe Mantovani 2017192
+ * 
+ */
 
 const ImageController = class {
 
-
+    /**
+     * Singleton instance
+     */
     static instance;
 
     constructor(){
@@ -18,8 +24,8 @@ const ImageController = class {
     }
 
     /**
-     * Sends requests to /cities
-     * @param {} callback 
+     * Sends requests to /images
+     * @param {Function} callback 
      */
     getImages(callback){
         $.ajax({
@@ -30,6 +36,12 @@ const ImageController = class {
         });
     }
 
+    /**
+     * Sends GET request to isVocationRelated. 
+     * @param {String} id 
+     * @param {Function} callback1 //success handling
+     * @param {Function} callback2 //error handling
+     */
     isVocationRelated(id, callback1, callback2){
         $.ajax({
             url: `/api/v2/isVocationRelated/${id}`,
@@ -41,6 +53,12 @@ const ImageController = class {
     }
 
 
+    /**
+     * Sends the POST request to the /image rounting.
+     * @param {FormData} data 
+     * @param {Function} callback1 //success handling
+     * @param {Function} callback2 //error handling
+     */
     createImage(data, callback1, callback2){
         $.ajax({
             type: "POST",
@@ -56,9 +74,10 @@ const ImageController = class {
     }
 
     /**
-     * Sends requests to /player by DELETE
-     * @param {} id 
-     * @param {*} callback 
+     * Sends DELETE request to /image
+     * @param {String} id 
+     * @param {Function} callback1 //success handler
+     * @param {Function} callback2 //error handler
      */
     deleteImage(id, callback1, callback2){
         $.ajax({

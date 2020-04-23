@@ -16,6 +16,7 @@
     <title>Felipe Mantovani 2017192 IWA CA 2</title>
 </head>
     <body>
+    
         <div class="formBackdrop hide" id="formBackdrop3">
         <div class="grid-container">
            <div class="modalForm">
@@ -203,12 +204,12 @@
         </div>
         
         
-        
-        <div class="container">
-        <h4>Players List</h4>
-        <p>List of players signed up for the MMO-RPG game Sally Forth</p>
         <div class="container-fluid">
-            <div class="row">
+	        <div class="row">
+		        <div class="col-md-6">
+                <h4>Players List</h4>
+        <p>List of players signed up for the MMO-RPG game Sally Forth</p>
+        <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                     <label for=""><input type="radio" name="optradio"  checked id="by-name"> Sort By Name</label>
                     
@@ -220,11 +221,7 @@
                     <label for=""><input type="radio" name="optradio" id="by-city"> Sort By City</label><br>
                 </div>
             </div>
-        </div>            
-        
-        
-        <div class="grid-container">
-            <div class="players">
+ <div class="players">
                 <div class="behindSpinner">
                 
                     <table class="table table-hover">
@@ -233,9 +230,9 @@
                                 <th>id</th>
                                 <th>name</th>
                                 <th>level</th>
-                                <th>city</th>
                                 <th>vocation</th>
                                 <th></th>
+                                <th>city</th>
                                 <th>sex</th>
                                 <th></th>
                                 <th></th>
@@ -247,8 +244,9 @@
                     </table> 
                 </div>
             </div>
-            <div class="cities">
-                <h4>List of cities</h4>
+		        </div>
+		        <div class="col-md-3">
+                 <h4>List of cities</h4>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -260,8 +258,8 @@
                         
                     </tbody>
                 </table>
-            </div>
-            <div class="vocations">
+		        </div>
+		        <div class="col-md-3">
                 <h4>List of vocations</h4>
                 <table class="table table-hover">
                     <thead>
@@ -276,6 +274,35 @@
 
                     </tbody>
                 </table>
+		        </div>
+	        </div>
+        </div>
+        
+        <div class="container">
+        
+        <!-- <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <label for=""><input type="radio" name="optradio"  checked id="by-name"> Sort By Name</label>
+                    
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <label for=""><input type="radio" name="optradio" id="by-level">  Sort By Level</label><br>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <label for=""><input type="radio" name="optradio" id="by-city"> Sort By City</label><br>
+                </div>
+            </div>
+        </div>             -->
+        
+        
+        <div class="grid-container">
+           
+            <div class="cities">
+               
+            </div>
+            <div class="vocations">
+                
             </div>
         </div>
         

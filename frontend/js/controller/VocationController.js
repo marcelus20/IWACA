@@ -1,8 +1,13 @@
 
-
+/**
+ * Controller responsible for communicating with the API
+ */
 const VocationController = class {
 
 
+    /**
+     * Singleton instance
+     */
     static instance;
 
     constructor(){
@@ -17,8 +22,8 @@ const VocationController = class {
     }
 
     /**
-     * Sends requests to /cities
-     * @param {} callback 
+     * Sends GET request to /vocations
+     * @param {Function} callback 
      */
     getVocations(callback){
         $.ajax({
@@ -30,6 +35,12 @@ const VocationController = class {
     }
 
 
+    /**
+     * Sends POST request to /vocation
+     * @param {Vocation} vocation 
+     * @param {Function} callback1 //success handler
+     * @param {Function} callback2 //error handler
+     */
     createVocation(vocation, callback1, callback2){
         $.ajax({
             type: "POST",
@@ -44,8 +55,9 @@ const VocationController = class {
 
     /**
      * Sends requests to /player by DELETE
-     * @param {} id 
-     * @param {*} callback 
+     * @param {String} id 
+     * @param {Function} callback1 //success handler
+     * @param {Function} callback2 //success handler
      */
     deleteVocation(id, callback1, callback2){
         $.ajax({
@@ -59,9 +71,11 @@ const VocationController = class {
     }
 
     /**
-     * Sends requests to /player by PUT
-     * @param {*} player 
-     * @param {*} callback 
+     * Sends requests to /vocation by PUT
+     * @param {String} id 
+     * @param {Vocation} vocation 
+     * @param {Function} callback 
+     * @param {Function} callback 
      */
     updateVocation(vocation, id, callback1, callback2){
         $.ajax({
@@ -75,6 +89,12 @@ const VocationController = class {
         });
     }
 
+    /**
+     * Sends a request to checkIfVocationIsDefault routing path
+     * @param {String} id 
+     * @param {Function} callback1 
+     * @param {Function} callback2 
+     */
     checkIfVocationIsDefault(id, callback1, callback2){
         $.ajax({
             url: "/api/v2/checkIfVocationIsDefault/"+id,
@@ -85,6 +105,11 @@ const VocationController = class {
         });
     }
 
+     /**
+     * Sends a request to defaultVocationRelated routing path
+     * @param {Function} callback1 
+     * @param {Function} callback2 
+     */
     defaultVocationRelated(callback1, callback2){
         $.ajax({
             url: "/api/v2/defaultVocationRelated",
@@ -95,6 +120,12 @@ const VocationController = class {
         });
     }
 
+     /**
+     * Sends a request to isAssociatedWithAPlayer routing path
+     * @param {String} id 
+     * @param {Function} callback1 
+     * @param {Function} callback2 
+     */
     isAssociatedWithAPlayer(id, callback1, callback2){
         $.ajax({
             url: "/api/v2/isAssociatedWithAPlayer/" + id,

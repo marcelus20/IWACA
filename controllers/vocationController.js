@@ -1,11 +1,18 @@
-const Vocation = require('../models/vocation.js');
+/**
+Felipe Mantovani 2017192
+ */
+const Vocation = require('../models/vocation.js'); // Main model utilised by this controller
 const Player   = require('../models/player'); 
 
 
 //declaring vocations that user cannot delete
+/**
+These are the default vocations of the system. User will be able to create their own, but cannot, delete the ones bellow, no matter what. 
+User will be able to delete nd update just the ones they create, but not these
+ */
 const defaultVocations = ["knight", "paladin", "sorcerer","druid","elite knight","royal paladin", "master sorcerer", "elder druid"];
 
-
+// Creates a new voction record in the db
 exports.createVocation = (req, res) => { 
     console.log(req.body);
     var newVocation = new Vocation(req.body);
@@ -15,9 +22,10 @@ exports.createVocation = (req, res) => {
         }
 
         res.json(vocation); 
-});
+    });
 };
 
+//Get a list of existing vocations
 exports.getVocations = (req, res) => {
   Vocation.find({}, function (err, vocations) {
     if (err) {
@@ -27,6 +35,9 @@ exports.getVocations = (req, res) => {
   }); 
 };
 
+/**
+    Get a specific vocation by id passed in the params object
+ */
 exports.getVocation = (req, res) => {
   Vocation.findOne({_id: req.params.id}, function (err, vocation) {
     if (err) {
@@ -36,6 +47,8 @@ exports.getVocation = (req, res) => {
   }); 
 };
 
+
+//Update an existing vocation
 exports.updateVocation = (req, res) => {
   Vocation.findOneAndUpdate({_id: req.params.id}, req.body, {new: true},function (err, vocation) {
     if (err) {
@@ -76,6 +89,10 @@ exports.isAssociatedWithAPlayer = (req, res) => {
     });
 }
 
+/**
+Delete a vocation. Once again, default ones should not be delete. Frontend has mechanismos to prevent it from deleting, 
+but if it is done by postman, it may delete, but frontend will break
+ */
 exports.deleteVocation = (req, res) => {
     //first, get the list of vocations in the DB:
     Vocation.find({}, function (err, vocations) {
@@ -99,8 +116,5 @@ exports.deleteVocation = (req, res) => {
         }
         
     }); 
-    
-
-
-    
+     
 };

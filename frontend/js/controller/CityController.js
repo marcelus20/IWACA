@@ -1,14 +1,23 @@
-
+/**
+ * This is the frontend city controller
+ * This class is responsible for sending requests to the API
+ * Felipe Mantovani 2017192
+ * All controllers are singleton
+ * The client of this controller is the scripts.js file
+ */
 
 const CityController = class {
 
 
-    static instance;
+    static instance;//singleton instance
 
     constructor(){
 
     }
 
+    /**
+     * Get instance methodd
+     */
     static getInstance(){
         if(CityController.instance == null){
             CityController.instance = new CityController();
@@ -18,7 +27,7 @@ const CityController = class {
 
     /**
      * Sends requests to /cities
-     * @param {} callback 
+     * @param {Function} callback 
      */
     getCities(callback){
         $.ajax({
@@ -30,6 +39,12 @@ const CityController = class {
     }
 
 
+    /**
+     * Sends request POST to /city
+     * @param {City} city 
+     * @param {Function} callback1 
+     * @param {Function} callback2 
+     */
     createCity(city, callback1, callback2){
         $.ajax({
             type: "POST",
@@ -44,8 +59,8 @@ const CityController = class {
 
     /**
      * Sends requests to /player by DELETE
-     * @param {} id 
-     * @param {*} callback 
+     * @param {String} id 
+     * @param {Function} callback 
      */
     deleteCity(id, callback){
         $.ajax({
@@ -59,8 +74,8 @@ const CityController = class {
 
     /**
      * Sends requests to /player by PUT
-     * @param {*} player 
-     * @param {*} callback 
+     * @param {Player} player 
+     * @param {Function} callback 
      */
     updateCity(city, id, callback1, callback2){
         $.ajax({
@@ -73,6 +88,13 @@ const CityController = class {
             error: callback2
         });
     }
+
+    /**
+     * Sends request to /cityIsAssociatedWithAPlayer path
+     * @param {String} id 
+     * @param {Function} callback1 
+     * @param {Function} callback2 
+     */
     cityIsAssociatedWithAPlayer(id, callback1, callback2){
         $.ajax({
             url: "/api/v2/cityIsAssociatedWithAPlayer/"+id,

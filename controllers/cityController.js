@@ -1,6 +1,14 @@
-const City = require('../models/city.js');
+/**
+ * Felipe Mantovani 2017192
+ */
+
+const City = require('../models/city.js'); // The model for this controller
 const Player = require('../models/player.js');
 
+
+/**
+ * sends the command to the DB to create a new City
+ */
 exports.createCity = (req, res) => { 
     console.log(req.body);
     var newCity = new City(req.body);
@@ -10,9 +18,12 @@ exports.createCity = (req, res) => {
         }
 
         res.json(city); 
-});
+    });
 };
 
+/**
+ * uses the model to get the list o cities from db
+ */
 exports.getCities = (req, res) => {
   City.find({}, function (err, cities) {
     if (err) {
@@ -22,6 +33,9 @@ exports.getCities = (req, res) => {
   }); 
 };
 
+/**
+ * Uses the model to get a single city by an id
+ */
 exports.getCity = (req, res) => {
   City.findOne({_id: req.params.id}, function (err, city) {
     if (err) {
@@ -31,6 +45,9 @@ exports.getCity = (req, res) => {
   }); 
 };
 
+/**
+ * uses the model to update a city
+ */
 exports.updateCity = (req, res) => {
   City.findOneAndUpdate({_id: req.params.id}, req.body, {new: true},function (err, city) {
     if (err) {
@@ -40,6 +57,9 @@ exports.updateCity = (req, res) => {
   }); 
 };
 
+/**
+ * Uses the model to issue the delete command to db
+ */
 exports.deleteCity = (req, res) => {
   City.findByIdAndRemove(req.params.id, function (err, city) {
     if (err) {

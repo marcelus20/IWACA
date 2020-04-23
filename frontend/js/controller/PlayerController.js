@@ -1,5 +1,6 @@
 
 /**
+ * Felipe Mantovani 2017192
  * This class is for the front end handles the AJAX calls by using the fetch API. 
  * 
  * I made it singleton. 
@@ -22,7 +23,7 @@ class Controller {
 
     /**
      * Sends requests to /players
-     * @param {} callback 
+     * @param {Function} callback 
      */
     getPlayers (callback){
         $.ajax({
@@ -37,7 +38,7 @@ class Controller {
 
     /**
      * Sends requests to /vocations
-     * @param {*} callback 
+     * @param {Function} callback 
      */
     getVocations(callback){
         $.ajax({
@@ -51,8 +52,8 @@ class Controller {
 
     /**
      * Sends requests to /player by POST
-     * @param {*} form 
-     * @param {*} callback 
+     * @param {Player} player 
+     * @param {Function} callback 
      */
     createPlayer(player, callback1, callback2){
 
@@ -69,8 +70,9 @@ class Controller {
 
     /**
      * Sends requests to /player by DELETE
-     * @param {} id 
-     * @param {*} callback 
+     * @param {String} id 
+     * @param {Function} callback1 //success handling 
+     * @param {Function} callback2 //error handling
      */
     deletePlayer(id, callback1, callback2){
         $.ajax({
@@ -85,8 +87,10 @@ class Controller {
 
     /**
      * Sends requests to /player by PUT
-     * @param {*} player 
-     * @param {*} callback 
+     * @param {String} id 
+     * @param {Player} player 
+     * @param {*} callback1 // success handling 
+     * @param {*} callback2 // error handling 
      */
     updatePlayer(player, id, callback1, callback2){
         $.ajax({
@@ -99,10 +103,6 @@ class Controller {
             error: callback2
         });
     }
-
-
-
-
     
 }
 

@@ -12,17 +12,22 @@ const mongoose   = require('mongoose');
 const app        = express();
 const port       = 3000;
 const routes     = require('./routes');
+require('dotenv').config()
 
+//passing in the middlewares
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(routes);
 
 
+//port listening
 app.listen(port, function(err){
     console.log("Listening on Port: " + port);
 });
 
-mongoose.connect(process.env.MONGODB_URL);
+
+//Stabilishing connection with the DB database
+mongoose.connect(process.env.MONGO_URL);
 mongoose.connection.on('error', (err) => { 
     console.log('Mongodb Error: ', err); 
     process.exit();

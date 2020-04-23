@@ -1,5 +1,11 @@
-const Player = require('../models/player.js');
 
+/**
+Felipe Mantovani 2917192
+ */
+const Player = require('../models/player.js');//nodel utilised by this PLayer
+
+
+// create a a new player routing
 exports.createPlayer = (req, res) => { 
     var newPlayer = new Player(req.body);
     newPlayer.save(function (err, player) { 
@@ -8,9 +14,11 @@ exports.createPlayer = (req, res) => {
         }
 
         res.json(player); 
-});
+    });
 };
 
+
+//get the list of players recorded to db
 exports.getPlayers = (req, res) => {
   Player.find({}, function (err, players) {
     if (err) {
@@ -20,6 +28,7 @@ exports.getPlayers = (req, res) => {
   }); 
 };
 
+//The a single player by a given ID
 exports.getPlayer = (req, res) => {
   Player.findOne({_id: req.params.id}, function (err, player) {
     if (err) {
@@ -29,6 +38,7 @@ exports.getPlayer = (req, res) => {
   }); 
 };
 
+//update the adetails of a existing player
 exports.updatePlayer = (req, res) => {
   Player.findOneAndUpdate({_id: req.params.id}, req.body, {new: true},function (err, player) {
     if (err) {
@@ -38,6 +48,7 @@ exports.updatePlayer = (req, res) => {
   }); 
 };
 
+//delete a existing player
 exports.deletePlayer = (req, res) => {
   Player.findByIdAndRemove(req.params.id, function (err, player) {
     if (err) {

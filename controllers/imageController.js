@@ -1,4 +1,7 @@
-/**Code retrieved from the professors template */
+/**
+ * Code retrieved from the professors template. It's been partially modified by me (Felipe Mantovani 2017192)
+ * Author: Mikhail 
+ * */
 
 var UPLOAD_PATH = require('../routes').UPLOAD_PATH;
 const Vocation = require('../models/vocation');

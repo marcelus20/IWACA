@@ -1,4 +1,4 @@
-/**Code retrieved from the professors template */
+/**Code retrieved from the professors (Mikhail) template. Not mine */
 
 var mongoose = require('mongoose');
 
